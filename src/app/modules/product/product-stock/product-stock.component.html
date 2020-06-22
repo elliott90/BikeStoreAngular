@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">Stock by store for product</div>
+      <div class="card-body">
+        <table class="table table-bordered table-striped" *ngIf="stock">
+          <thead>
+            <tr>
+              <th>Store Id</th>
+              <th>Store</th>
+              <th>Email</th>
+              <th>Quantity</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let si of stock">
+              <td>{{ si.storeId }}</td>
+              <td>
+                <ng-template #tipContent
+                  >{{ si.store?.storeName }}, {{ si.store?.city }}, {{ si.store?.zipCode }}</ng-template
+                >
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-secondary mr-2"
+                  placement="top"
+                  [ngbTooltip]="tipContent"
+                >
+                  {{ si.store?.storeName }}
+                </button>
+              </td>
+              <td>{{ si.store?.email }}</td>
+              <td>{{ si.quantity }}</td>
+              <td>
+                <div ngbDropdown class="d-inline-block">
+                  <button class="btn btn-sm btn-outline-primary" ngbDropdownToggle>Action</button>
+                  <div ngbDropdownMenu>
+                    <button ngbDropdownItem (click)="updateStockForm(si)">Edit</button>
+                    <div class="dropdown-divider"></div>
+                    <button ngbDropdownItem>Delete</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6" *ngIf="selectedStore">
+    <div class="card">
+      <div class="card-header">Edit Stock for {{ selectedStore.storeName }}</div>
+      <div class="card-body">
+        <form [formGroup]="stockForm" (ngSubmit)="saveStockForm()">
+          <div class="form-group">
+            <label for="productNameId">Product Name</label>
+            <input type="text" class="form-control" disabled [value]="product.productName" />
+          </div>
+          <div class="form-group">
+            <label for="StoreId">Store</label>
+            <select id="storeId" formControlName="storeId" class="form-control" disabled>
+              <option *ngFor="let store of stores" [value]="store.storeId">{{ store.storeName }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="quantityId">Quantity</label>
+            <input id="quantityId" type="number" class="form-control" formControlName="quantity" />
+          </div>
+
+          <div class="d-flex">
+            <div class="ml-auto">
+              <button class="btn btn-success" type="submit">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+$blue: #326393;
+
+.sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 1rem;
+    max-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sidebar-menu {
+    margin: 20px 0 0 0;
+    padding: 0;
+
+    li a {
+        display: block;
+        padding: 10px;
+        display: block;
+        background: $blue;
+        margin-bottom: 10px;
+        color: #fff;
+
+        &.active {
+            background: darken($blue, 15);
+        }
+
+        &:hover {
+            text-transform: none;
+            text-decoration: none;
+        }
+    }
+}

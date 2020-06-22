@@ -1,0 +1,14 @@
+<app-page-header>
+    <h1>Order</h1>
+    <ul class="nav-tabs px-4 px-lg-5 content-tabset justify-content-md-start justify-content-end nav" 
+        role="tablist"
+        slot="submenu"> 
+        <li class="nav-item">
+            <a [routerLink]="['details']" routerLinkActive="active" class="nav-link"> Details </a>
+        </li>
+    </ul>
+</app-page-header>
+
+<div class="container-fluid pt-3 pb-5 px-2 px-md-4 px-lg-2">
+    <router-outlet></router-outlet>
+</div>

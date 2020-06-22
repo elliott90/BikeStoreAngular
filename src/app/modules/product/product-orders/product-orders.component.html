@@ -1,0 +1,8 @@
+<app-pagination
+  [totalItems]="totalRecords"
+  [pageSize]="this.orderFilter.pageSize"
+  (pageChanged)="pageChanged($event)"
+  (pageSizeChanged)="pageSizeChanged($event)"
+>
+  <app-orders-list [orders]="orders"></app-orders-list>
+</app-pagination>

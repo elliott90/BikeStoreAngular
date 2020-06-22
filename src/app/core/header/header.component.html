@@ -1,0 +1,58 @@
+<header class="navbar navbar-expand navbar-dark bg-dark px-4 flex-column flex-md-row">
+  <ul class="navbar-nav flex-row">
+    <li class="nav-item"><a class="nav-link" href="''">Menu Item</a></li>
+    <li class="nav-item"><a class="nav-link" href="''">Menu Item</a></li>
+    <li class="nav-item"><a class="nav-link" href="''">Menu Item</a></li>
+  </ul>
+
+  <div class="ml-auto">
+    <div class="d-flex">
+      <form *ngIf="isLoggedIn" class="form-inline mr-3 product-search-form" #productTypeAheadForm="ngForm">
+        <div class="product-search-spinner" *ngIf="productsSearching"><i class="fa fa-spinner fa-spin"></i></div>
+        <input
+          class="form-control d-inline"
+          type="text"
+          placeholder="Product Search"
+          name="productSearch"
+          #productSearchInput="ngModel"
+          [(ngModel)]="model"
+          (ngModelChange)="(onSearch)"
+        />
+        <div id="search-results" *ngIf="products">
+          <ul class="list-group">
+            <a
+              class="list-group-item"
+              *ngFor="let product of products"
+              [routerLink]="['/product', product.productId, 'edit']"
+              >{{ product.productName }}</a
+            >
+          </ul>
+        </div>
+      </form>
+
+      <div *ngIf="isLoggedIn && lastViewedCustomers.length" ngbDropdown class="d-inline-block mr-3">
+        <button class="btn btn-outline-light" id="dropdownBasic1" ngbDropdownToggle>Recent Customers</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button
+            ngbDropdownItem
+            *ngFor="let customer of lastViewedCustomers.slice().reverse()"
+            [routerLink]="['/customer', customer.customerId, 'edit']"
+          >
+            {{ customer.firstName }} {{ customer.lastName }}
+          </button>
+        </div>
+      </div>
+      <!-- <button class="btn btn-info" (click)="loginOrLogout()">{{loginLogoutText}}</button> -->
+      <button class="btn btn-info" (click)="login()" *ngIf="!isLoggedIn">Login</button>
+      <div *ngIf="isLoggedIn" class="btn-group mr-3">
+        <button type="button" class="btn btn-primary">{{userName}}</button>
+        <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+          <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
+          <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+            <button ngbDropdownItem (click)="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

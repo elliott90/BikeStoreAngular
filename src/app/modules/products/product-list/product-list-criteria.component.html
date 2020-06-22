@@ -1,0 +1,57 @@
+<form class="form" novalidate [formGroup]="filterForm">
+  <div class="card bg-light">
+    <div class="card-header">
+      Filter
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6 col-lg-3">
+          <div class="form-group">
+            <label for="searchText">Search</label>
+            <input id="searchText" type="text" class="form-control form-control-sm" formControlName="search" />
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="form-group">
+            <label for="productId">Product Id:</label>
+            <input id="productId" type="number" class="form-control form-control-sm" formControlName="productId" />
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="form-group">
+            <label for="productId">Category:</label>
+            <select class="form-control form-control-sm" formControlName="categoryId">
+              <option value="0">Any</option>
+              <option *ngFor="let category of categories$ | async" [value]="category.categoryId">
+                {{ category.categoryName }}</option
+              >
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="form-group">
+            <label for="productId">Brand:</label>
+            <select class="form-control form-control-sm" formControlName="brandId">
+              <option value="0">Any</option>
+              <option *ngFor="let brand of brands$ | async" [value]="brand.brandId"> {{ brand.brandName }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-lg-3">
+          <div class="form-group">
+            <label for="minCost">Min Cost</label>
+            <input id="minCost" type="number" class="form-control form-control-sm" formControlName="minCost" />
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="form-group">
+            <label for="maxCost">Max Cost</label>
+            <input id="maxCost" type="number" class="form-control form-control-sm" formControlName="maxCost" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

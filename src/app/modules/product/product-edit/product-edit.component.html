@@ -1,0 +1,162 @@
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card" *ngIf="product">
+      <div class="card-header">{{ pageTitle }}</div>
+      <div class="card-body">
+        <form novalidate class="form-group" [formGroup]="productForm" (ngSubmit)="saveChanges()">
+          <div class="form-group row">
+            <div class="col-md-3">Product Name</div>
+            <div class="col-md-9">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="productName"
+                [ngClass]="{
+                  'is-valid':
+                    (productForm.get('productName').touched || productForm.get('productName').dirty) &&
+                    productForm.get('productName').valid
+                }"
+              />
+
+              <span
+                class="text-danger"
+                *ngIf="productForm.get('productName').touched && productForm.get('productName').errors?.required"
+                >Please enter product name.</span
+              >
+              <span
+                class="text-danger"
+                *ngIf="productForm.get('productName').touched && productForm.get('productName').errors?.minlength"
+                >Must be at least 3 characters.</span
+              >
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-3">Model Year</div>
+            <div class="col-md-9">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="modelYear"
+                [ngClass]="{
+                  'is-valid':
+                    (productForm.get('modelYear').touched || productForm.get('modelYear').dirty) &&
+                    productForm.get('modelYear').valid
+                }"
+              />
+
+              <span
+                class="text-danger"
+                *ngIf="productForm.get('modelYear').touched && productForm.get('modelYear').errors?.required"
+                >Please enter product number.</span
+              >
+              <span
+                class="text-danger"
+                *ngIf="productForm.get('modelYear').touched && productForm.get('modelYear').errors?.minlength"
+                >The model year must be 4 characters.</span
+              >
+              <span
+                class="text-danger"
+                *ngIf="productForm.get('modelYear').touched && productForm.get('modelYear').errors?.range"
+                >Model year must be between 2000 and 2021.</span
+              >
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-3">
+              Category
+            </div>
+            <div class="col-md-9">
+              <select class="form-control" formControlName="categoryId">
+                <option *ngFor="let category of categories$ | async" [value]="category.categoryId">
+                  {{ category.categoryName }}</option
+                >
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-3">
+              Brand
+            </div>
+            <div class="col-md-9">
+              <select class="form-control" formControlName="brandId">
+                <option *ngFor="let brand of brands$ | async" [value]="brand.brandId"> {{ brand.brandName }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-3">List Price</div>
+            <div class="col-md-9">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="listPrice"
+                currencyMask
+                [ngClass]="{ 'is-valid': productForm.get('listPrice').touched || productForm.get('listPrice').dirty }"
+              />
+
+              <span
+                class="text-danger"
+                *ngIf="productForm.get('listPrice').touched && productForm.get('listPrice').errors?.required"
+                >Please enter a price.</span
+              >
+              <span
+                class="text-danger"
+                *ngIf="productForm.get('listPrice').touched && productForm.get('listPrice').errors?.minlength"
+                >The product number must be longer than 3 characters.</span
+              >
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+              <div class="d-flex">
+                <swal
+                  #deleteSwal
+                  title="Delete {{ product.productName }}?"
+                  text="This cannot be undone, this will also delete any related stock and order information"
+                  icon="question"
+                  [showCancelButton]="true"
+                  [focusCancel]="true"
+                  (confirm)="deleteProduct()"
+                >
+                </swal>
+
+                <button class="btn btn-danger" type="button" [swal]="deleteSwal" *ngIf="!isNewProduct">
+                  Delete
+                </button>
+
+                <div class="ml-auto">
+                  <button
+                    class="btn btn-outline-success"
+                    type="submit"
+                    [disabled]="!productForm.valid"
+                    [title]="productForm.valid ? 'Save & redirect to products' : 'Invalid Form'"
+                    (click)="saveChangesAndRedirectToList()"
+                  >
+                    Save
+                  </button>
+                  <button
+                    class="btn btn-outline-success"
+                    type="submit"
+                    [disabled]="!productForm.valid"
+                    [title]="productForm.valid ? 'Save & stay on page' : 'Invalid Form'"
+                  >
+                    Save & Continue Editing
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br />Dirty: {{ productForm.dirty }} <br />Touched: {{ productForm.touched }} <br />Valid: {{ productForm.valid }}
+<br />Pristine: {{ productForm.pristine }} <br />Value: {{ productForm.value | json }}

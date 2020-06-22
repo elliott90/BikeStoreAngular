@@ -1,0 +1,49 @@
+<div *ngIf="stores$ | async as stores">
+  <div class="card bg-light mb-3">
+    <div class="card-header">
+      Filter
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label for="search">Search</label>
+            <input type="text" class="form-control" [(ngModel)]="storeFilter.search">
+        </div>
+        <button (click)="loadStores()" class="btn btn-primary">Search</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <app-pagination
+        [totalItems]="stores.totalRecords"
+        [pageSize]="stores.pageSize"
+        (pageChanged)="pageChanged($event)"
+        (pageSizeChanged)="pageSizeChanged($event)"
+      >
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Store Id</th>
+              <th>Store Name</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Stock Holding</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let store of stores.results">
+              <td>{{ store.storeId }}</td>
+              <td>{{ store.storeName }}</td>
+              <td>{{ store.phone }}</td>
+              <td>{{ store.street }}, {{ store.city }}, {{ store.state }}</td>
+              <td>{{ store.totalStockHolding }} units</td>
+              <td class="text-right">
+                <button class="btn btn-sm btn-primary" [routerLink]="['/store', store.storeId, 'edit']">View</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </app-pagination>
+    </div>
+  </div>
+</div>

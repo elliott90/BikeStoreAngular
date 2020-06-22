@@ -1,0 +1,172 @@
+<div class="row">
+  <div class="col-lg-6">
+    <form novalidate class="card form-group" [formGroup]="storeForm" (ngSubmit)="saveChanges()">
+      <div class="card-header">{{ store.storeName }}</div>
+      <div class="card-body">
+        <div class="form-group row">
+          <div class="col-md-3">Store Id</div>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="storeId"
+              [ngClass]="{ 'is-valid': storeForm.get('storeId').touched || storeForm.get('storeId').dirty }"
+            />
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-3">Store Name</div>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="storeName"
+              [ngClass]="{
+                'is-valid':
+                  (storeFormControl.storeName.touched || storeFormControl.storeName.dirty) &&
+                  storeFormControl.storeName.valid
+              }"
+            />
+
+            <span class="text-danger" *ngIf="storeFormControl.storeName.errors?.required">Store Name is required.</span>
+            <span class="text-danger" *ngIf="storeFormControl.storeName.errors?.minlength"
+              >Store Name must be at least 3 characters.</span
+            >
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-3">Phone</div>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="phone"
+              [ngClass]="{
+                'is-valid':
+                  (storeFormControl.phone.touched || storeFormControl.phone.dirty) && storeFormControl.phone.valid
+              }"
+            />
+
+            <span class="text-danger" *ngIf="storeFormControl.phone.errors?.required">Phone is required.</span>
+            <span class="text-danger" *ngIf="storeFormControl.phone.errors?.minlength"
+              >Phone must be at least 10 characters.</span
+            >
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-3">Email</div>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="email"
+              [ngClass]="{
+                'is-valid':
+                  (storeFormControl.email.touched || storeFormControl.email.dirty) && storeFormControl.email.valid
+              }"
+            />
+
+            <span class="text-danger" *ngIf="storeFormControl.email.errors?.required">Email is required.</span>
+            <span class="text-danger" *ngIf="storeFormControl.email.errors?.email">Must be a valid email address.</span>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-3">Street</div>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="street"
+              [ngClass]="{
+                'is-valid':
+                  (storeFormControl.street.touched || storeFormControl.street.dirty) && storeFormControl.street.valid
+              }"
+            />
+
+            <span class="text-danger" *ngIf="storeFormControl.street.errors?.required">Street is required.</span>
+            <span class="text-danger" *ngIf="storeFormControl.street.errors?.minlength"
+              >Must be at least 3 characters.</span
+            >
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-3">City</div>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="city"
+              [ngClass]="{
+                'is-valid':
+                  (storeFormControl.city.touched || storeFormControl.city.dirty) && storeFormControl.city.valid
+              }"
+            />
+
+            <span class="text-danger" *ngIf="storeFormControl.city.errors?.required">City is required.</span>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-3">State</div>
+          <div class="col-md-9">
+            <select
+              class="form-control"
+              formControlName="state"
+              [ngClass]="{
+                'is-valid':
+                  (storeFormControl.state.touched || storeFormControl.state.dirty) && storeFormControl.state.valid
+              }"
+            >
+              <option *ngFor="let state of states" [value]="state.abbreviation">
+                {{ state.abbreviation }} - {{ state.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-3">Zip Code</div>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="zipCode"
+              [ngClass]="{
+                'is-valid':
+                  (storeFormControl.zipCode.touched || storeFormControl.zipCode.dirty) && storeFormControl.zipCode.valid
+              }"
+            />
+
+            <span class="text-danger" *ngIf="storeFormControl.zipCode.errors?.required">Zip Code is required.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="d-flex">
+          <button class="btn btn-secondary mr-auto" type="button" [disabled]="!storeForm.dirty" (click)="resetForm()">
+            Reset
+          </button>
+
+          <button class="btn btn-danger mr-2">Delete</button>
+          <button
+            class="btn btn-success"
+            type="submit"
+            [title]="storeForm.valid ? 'Save' : 'Invalid Form'"
+            [disabled]="!storeForm.valid"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<br />Dirty: {{ storeForm.dirty }} <br />Touched: {{ storeForm.touched }} <br />Valid: {{ storeForm.valid }}
+<br />Value: {{ storeForm.value | json }}

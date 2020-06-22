@@ -1,0 +1,77 @@
+<div class="card mb-4">
+  <div class="card-header">
+    <div class="d-flex align-items-center">
+      <div class="mr-5">
+        <span class="d-block small text-uppercase">order placed</span>
+        <span class="small">{{ order.orderDate | date }}</span>
+      </div>
+      <div class="mr-5" *ngIf="order.shippedDate">
+        <span class="d-block small text-uppercase">order shipped</span>
+        <span class="small">{{ order.shippedDate | date }}</span>
+      </div>
+      <div class="mr-5">
+        <span class="d-block small text-uppercase">total</span>
+        <span class="small">{{ order.totalOrderAmount | currency: '£' }}</span>
+      </div>
+      <div>
+        <app-order-status [orderStatus]="order.orderStatus"></app-order-status>
+      </div>
+      <div class="ml-auto">
+        <span class="small text-uppercase">Order #{{ order.orderId }} </span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Store</th>
+              <th>Model Year</th>
+              <th>Quantity</th>
+              <th>List Price</th>
+              <th>Discount</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of order.orderItems">
+              <td>{{ item.product?.productName }}</td>
+              <td>{{ order.store.storeName }}</td>
+              <td>{{ item.product?.modelYear }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.listPrice | currency: '£' }}</td>
+              <td>
+                <b class="text-danger">{{ item.listPrice * item.quantity * item.discount | currency: '£' }}</b> ({{ item.discount | percent }})
+              </td>
+              <td>{{ item.listPrice * item.quantity | calculateDiscountedCost: item.discount | currency: '£' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-secondary">Contact Customer</button>
+      </div>
+      <div class="col text-right">
+        <button
+          class="btn btn-danger mr-2"
+          *ngIf="order.orderStatus === orderStatusEnum.Processing || order.orderStatus === orderStatusEnum.Pending"
+        >
+          Cancel Order
+        </button>
+        <button
+          class="btn btn-success"
+          *ngIf="order.orderStatus === orderStatusEnum.Processing || order.orderStatus === orderStatusEnum.Pending"
+        >
+          Mark as Shipped
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

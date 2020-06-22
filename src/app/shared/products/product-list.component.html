@@ -1,0 +1,37 @@
+<table class="table table-sm table-hover" *ngIf="products && products.length">
+    <thead class="thead-dark">
+        <tr>
+            <th>Product Id</th>
+            <th>Product Name</th>
+            <th>Brand</th>
+            <th>Category</th>
+            <th>List Price</th>
+            <th>Model Year</th>
+            <th>Stock</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let product of products">
+            <td>{{product.productId}}</td>
+            <td>{{product.productName}}</td>
+            <td>{{product.brand.brandName}}</td>
+            <td>{{product.category.categoryName}}</td>
+            <td>{{product.listPrice | currency:'GBP' }}</td>
+            <td>{{product.modelYear}}</td>
+            <td>{{product.stockTotal}}</td>
+            <td class="text-right">
+
+                <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-sm btn-outline-primary" ngbDropdownToggle>Action</button>
+                    <div ngbDropdownMenu>
+                        <button ngbDropdownItem [routerLink]="['/product', product.productId, 'edit']">Edit Product</button>
+                        <button ngbDropdownItem [routerLink]="['/product', product.productId, 'stock']">View Stock</button>
+                        <button ngbDropdownItem [routerLink]="['/product', product.productId, 'orders']">View Orders</button>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+    </tbody>
+</table>

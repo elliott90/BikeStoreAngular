@@ -1,0 +1,30 @@
+<div class="row mt-4">
+  <div class="col-lg-3">
+    <app-stat-box name="Customers" [number]="customerCount$ | async" badgeText="Total"></app-stat-box>
+  </div>
+  <div class="col-lg-3">
+    <app-stat-box name="Orders" [number]="orderCount$ | async" badgeText="Total"></app-stat-box>
+  </div>
+  <div class="col-lg-3">
+    <app-stat-box name="Products" [number]="productCount$ | async" badgeText="Total"></app-stat-box>
+  </div>
+  <div class="col-lg-3"></div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6" *ngIf="orders$ | async as orders">
+    <div class="stat-box">
+      <div class="stat-box__title">
+        <h5>Orders</h5>
+        <div class="stat-box__tools">
+            <button class="btn btn-sm btn-outline-primary" [routerLink]="['/orders', 'list', 'all']">View All</button>
+        </div>
+      </div>
+      <div class="stat-box__content">
+        <app-pagination [totalItems]="orders.totalRecords" pageSize="10">
+          <app-orders-list [orders]="orders.results" size="sm"></app-orders-list>
+        </app-pagination>
+      </div>
+    </div>
+  </div>
+</div>

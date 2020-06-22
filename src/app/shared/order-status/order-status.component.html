@@ -1,0 +1,8 @@
+<span 
+    class="badge"
+    [class.badge-success]="orderStatus === orderStatusEnum.Completed"
+    [class.badge-warning]="orderStatus === orderStatusEnum.Pending"
+    [class.badge-dark]="orderStatus === orderStatusEnum.Processing"
+    [class.badge-danger]="orderStatus === orderStatusEnum.Rejected">
+    {{orderStatusEnum[orderStatus]}}
+</span>

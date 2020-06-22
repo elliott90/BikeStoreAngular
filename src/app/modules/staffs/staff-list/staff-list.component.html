@@ -1,0 +1,51 @@
+<div *ngIf="staff">
+  <div class="card mb-3">
+    <div class="card-header">Filter</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-6">
+          <form class="form" #form="ngForm" (ngSubmit)="searchStaff()">
+            <div class="form-group">
+              <label for="search">Search</label>
+              <input type="text" class="form-control" name="search" [(ngModel)]="staffFilter.search" />
+            </div>
+            <button class="btn btn-primary">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-pagination
+    [totalItems]="staff.totalRecords"
+    [pageSize]="staff.pageSize"
+    (pageChanged)="pageChanged($event)"
+    (pageSizeChanged)="pageSizeChanged($event)"
+  >
+    <table class="table table-sm table-hover">
+      <thead class="thead-dark">
+        <th>Staff Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Active</th>
+        <th>Store</th>
+        <th>Manager</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of staff.results">
+          <td>{{ employee.staffId }}</td>
+          <td>{{ employee.firstName }}</td>
+          <td>{{ employee.lastName }}</td>
+          <td>{{ employee.email }}</td>
+          <td>{{ employee.phone }}</td>
+          <td>{{ employee.active }}</td>
+          <td>{{ employee.store?.storeName }}</td>
+          <td>{{ employee.manager?.firstName }} {{ employee.manager?.lastName }}</td>
+          <td><button class="btn btn-sm btn-outline-primary" [routerLink]="['/staff', employee.staffId, 'edit']">Edit</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </app-pagination>
+</div>

@@ -1,0 +1,34 @@
+<nav class="d-lg-block my-3 collapse sidebar">
+    <a routerLink="/">BIKE STORE</a>
+
+    <ul class="sidebar-menu">
+        <li>
+            <a [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        </li>
+        <li *ngIf="isLoggedIn && isAdmin">
+            <a [routerLink]="['/products', 'list', 'all']" routerLinkActive="active">Products</a>
+        </li>
+        <li *ngIf="isLoggedIn">
+            <a [routerLink]="['/orders', 'list', 'all']" routerLinkActive="active">Orders</a>
+        </li>
+        <li *ngIf="isLoggedIn">
+            <a [routerLink]="['/create-order']" routerLinkActive="active">Create Order</a>
+        </li>
+        <li *ngIf="isLoggedIn">
+            <a [routerLink]="['/customers']" routerLinkActive="active">Customers</a>
+        </li>
+        <li *ngIf="isLoggedIn">
+            <a [routerLink]="['/stores']" routerLinkActive="active">Stores</a>
+        </li>
+        <li *ngIf="isLoggedIn">
+            <a [routerLink]="['/staff']" routerLinkActive="active">Staff</a>
+        </li>
+        <li *ngIf="isLoggedIn">
+            <a [routerLink]="['/categories']" routerLinkActive="active">Categories</a>
+        </li>
+    </ul>
+</nav>
+
+
+
+
