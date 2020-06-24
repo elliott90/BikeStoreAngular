@@ -71,6 +71,8 @@ export class StaffEditComponent implements OnInit {
       } else {
         this.updateStaff(staff);
       }
+
+      this.router.navigate(['staff']);
     }
   }
 

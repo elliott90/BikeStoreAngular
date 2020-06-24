@@ -49,14 +49,16 @@ export class PaginationComponent implements AfterViewInit {
     this.update();
   }
 
-  @ViewChild('goToPageInput') goToPageInput: ElementRef; 
+  @ViewChild('goToPageInput') goToPageInput: ElementRef;
 
   @Output()
   pageChanged: EventEmitter<number> = new EventEmitter();
   @Output() pageSizeChanged: EventEmitter<number> = new EventEmitter();
 
   ngAfterViewInit(): void {
-    this.goToPageInput.nativeElement.placeholder = `1 - ${this.totalPages}`;
+    if (this.goToPage) {
+      this.goToPageInput.nativeElement.placeholder = `1 - ${this.totalPages}`;
+    }
   }
 
   showingNString(): void {

@@ -7,10 +7,16 @@
         <b><a [routerLink]="['/products']">Products</a></b>
 
         <p>
-            Products page shows a paginated list of all products with a search form. The search form will fire when the user changes an input, but the search function makes use of the RxJs Debounce function to wait for the user to stop making changes - This means the api call to the server is only attempted when the user finishes typing for 1 second rather than after each key press, reducing the strain on the api server.
-            <br><br> Read more on RxJs here: <a href="https://angular.io/guide/rx-library" target="blank">https://angular.io/guide/rx-library</a>
-            <br>When searching for products and navigating away from the page and returning again, it will remember your search criteria.
+            The products page shows a paginated list of all products with a search form.
+            
+            The filter form will fire when the user changes an input, but the search function makes use of the RxJs Debounce function to wait for the user to stop making changes - This means the api call to the server is only attempted when the user finishes typing for 1 second rather than after each key press, reducing the strain on the rest api.
+           
+            <br>When searching for products and navigating away from the page and returning again, it will remember your search criteria.            
         </p>
+
+        <p>Read more on RxJs here: <a href="https://angular.io/guide/rx-library" target="blank">https://angular.io/guide/rx-library</a></p>
+
+        <p class="text-info">Code Files: <a href="https://github.com/elliott90/BikeStoreAngular/tree/master/src/app/modules/products/product-list" target="_blank">https://github.com/elliott90/BikeStoreAngular/tree/master/src/app/modules/products/product-list</a></p>
 
         <b><a [routerLink]="['/product', 1, 'edit']">Product</a></b>
 

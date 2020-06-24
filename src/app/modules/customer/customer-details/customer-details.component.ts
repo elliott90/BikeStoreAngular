@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { ICustomer } from 'src/app/shared/interfaces/ICustomer';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { GrowlerService } from 'src/app/core/growler/growler.service';
 import { UtilsService } from 'src/app/core/services/utils.service';
@@ -21,6 +21,7 @@ export class CustomerDetailsComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     private route: ActivatedRoute,
+    private router: Router,
     private fb: FormBuilder,
     private growlerService: GrowlerService,
     private utilsService: UtilsService
@@ -37,8 +38,8 @@ export class CustomerDetailsComponent implements OnInit {
       customerId: [0],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      phone: ['', Validators.required],
-      email: [''],
+      phone: [''],
+      email: ['', Validators.required],
       street: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
@@ -67,6 +68,8 @@ export class CustomerDetailsComponent implements OnInit {
       } else {
         this.updateCustomer(customer);
       }
+
+      this.router.navigate(['customers']);
     }
   }
 

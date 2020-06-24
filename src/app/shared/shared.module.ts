@@ -23,6 +23,7 @@ import { DisabledControlDirective } from './directives/disabled-control.directiv
 import { FilterCollapseComponent } from './components/filter-collapse/filter-collapse.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { DebugFormComponent } from './components/debug-form/debug-form.component';
+import { FormButtonsComponent } from './components/form-buttons/form-buttons.component';
 
 export const customCurrencyMaskConfig = {
   align: 'left',
@@ -65,6 +66,7 @@ export const customCurrencyMaskConfig = {
     DisabledControlDirective,
     FilterCollapseComponent,
     DebugFormComponent,
+    FormButtonsComponent,
   ],
   exports: [
     CommonModule,
@@ -87,6 +89,7 @@ export const customCurrencyMaskConfig = {
     DisabledControlDirective,
     FilterCollapseComponent,
     DebugFormComponent,
+    FormButtonsComponent,
   ],
 })
 export class SharedModule {}
