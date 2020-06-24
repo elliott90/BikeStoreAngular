@@ -12,16 +12,17 @@ import Swal from 'sweetalert2';
 import { IProduct } from 'src/app/shared/interfaces/IProduct';
 import { ProductService } from 'src/app/core/services/product.service';
 import { Role } from 'src/app/shared/enums/Role';
+import { NumberRangeValidators } from 'src/app/shared/custom-validators/number-range.validators';
 
-function yearRange(minYear: number, maxYear: number) {
-  return (c: AbstractControl): { [key: string]: boolean } | null => {
-    if (c.value !== null && (isNaN(c.value) || c.value > maxYear || c.value < minYear)) {
-      return { range: true };
-    }
+// function yearRange(minYear: number, maxYear: number) {
+//   return (c: AbstractControl): { [key: string]: boolean } | null => {
+//     if (c.value !== null && (isNaN(c.value) || c.value > maxYear || c.value < minYear)) {
+//       return { range: true };
+//     }
 
-    return null;
-  };
-}
+//     return null;
+//   };
+// }
 
 @Component({
   selector: 'app-product-edit',
@@ -79,7 +80,12 @@ export class ProductEditComponent implements OnInit {
       productName: ['', [Validators.required, Validators.minLength(3)]],
       modelYear: [
         new Date().getFullYear(),
-        [Validators.required, Validators.minLength(4), Validators.maxLength(4), yearRange(2000, 2021)],
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(4),
+          NumberRangeValidators.YearRange(2000, 2021),
+        ],
       ],
       categoryId: [0, Validators.required],
       brandId: [0, Validators.required],
