@@ -1,6 +1,24 @@
+<header class="bg-light pt-4 pb-md-5 px-4 px-lg-5 d-flex d-md-block align-items-center title">
+  <div class="d-flex">
+    <h1 class="mb-4 mr-auto mr-md-none">Create Order</h1>
+    <div class="ml-auto">
+      <!-- <button class="btn btn-outline-secondary" [routerLink]="['/categories', 'list', 'all']" title="View all products">View All</button> -->
+    </div>
+  </div>
+
+  <ul class="nav-tabs px-4 px-lg-5 content-tabset justify-content-md-start justify-content-end nav" role="tablist">
+    <li class="nav-item">
+      <a [routerLink]="['/create-order']" routerLinkActive="active" class="nav-link"> Create </a>
+    </li>
+  </ul>
+</header>
+
 <div class="container-fluid pt-3 pb-5 px-2 px-md-4 px-lg-2">
-  <div class="row">
-    <div class="col-lg-6">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="alert alert-danger">
+        Feel free to play around but submitting this form will not do anything yet.
+      </div>
       <form class="card" [formGroup]="orderForm" (ngSubmit)="save()">
         <div class="card-header">
           Create a new order

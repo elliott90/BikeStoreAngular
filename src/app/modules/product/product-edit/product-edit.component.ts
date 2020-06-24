@@ -96,9 +96,11 @@ export class ProductEditComponent implements OnInit {
       const { error, product } = data.resolvedData;
       this.errorMessage = error;
 
-      this.product = product;
-      this.onProductRetrieved();
-      this.changeDetector.detectChanges();
+      if (!error) {
+        this.product = product;
+        this.onProductRetrieved();
+        this.changeDetector.detectChanges();
+      }
     });
   }
 

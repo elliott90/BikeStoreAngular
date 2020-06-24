@@ -14,16 +14,19 @@ export class ProductComponent implements OnInit {
   errorMessage: string;
 
   get isNewProduct(): boolean {
-    return this.product.productId === 0;
+    return this.product ? this.product?.productId === 0 : true;
   }
 
   constructor(private route: ActivatedRoute, private productService: ProductService, private ref: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
-      const { resolvedData } = data;
-      this.errorMessage = resolvedData.error;
-      this.product = resolvedData.product;
+      const { error, product } = data.resolvedData;
+      this.errorMessage = error;
+
+      if (!error) {
+        this.product = product;
+      }
     });
   }
 }

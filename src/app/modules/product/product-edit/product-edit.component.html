@@ -1,4 +1,6 @@
-<form novalidate [formGroup]="productForm" (ngSubmit)="saveChanges()">
+<p *ngIf="errorMessage">{{errorMessage}}</p>
+
+<form novalidate [formGroup]="productForm" (ngSubmit)="saveChanges()" *ngIf="!errorMessage">
   <app-form-buttons>
     <div card-buttons>
       <button
