@@ -30,6 +30,9 @@ import { StaffsModule } from './modules/staffs/staffs.module';
 import { StaffModule } from './modules/staff/staff.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { CategoryModule } from './modules/category/category.module';
+import { BrandsModule } from './modules/brands/brands.module';
+import { BrandModule } from './modules/brand/brand.module';
+import { HelpComponent } from './home/help/help.component';
 
 @NgModule({
   imports: [
@@ -51,6 +54,8 @@ import { CategoryModule } from './modules/category/category.module';
     StaffModule,
     CategoriesModule,
     CategoryModule,
+    BrandsModule,
+    BrandModule,
     AppRoutingModule,
   ],
   declarations: [
@@ -60,6 +65,7 @@ import { CategoryModule } from './modules/category/category.module';
     SidebarComponent,
     PageNotFoundComponent,
     SweetAlertComponent,
+    HelpComponent,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'en-gb' }],
   bootstrap: [AppComponent],

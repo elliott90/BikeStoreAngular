@@ -5,14 +5,15 @@ import { IPagedResults } from 'src/app/shared/interfaces/IPagedResults';
 import { IStaff } from 'src/app/shared/interfaces/IStaff';
 import { IPagedResponse } from 'src/app/shared/interfaces/IPagedResponse';
 import { map } from 'rxjs/operators';
-import { StaffFilter } from '../filter-models/staff-filter';
 import { IApiResponse } from 'src/app/shared/interfaces/IApiResponse';
+import { environment } from 'src/environments/environment';
+import { StaffFilter } from '../filter-models/staff-filter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StaffService {
-  private employeeUrl = 'https://localhost:44392/api/employees';
+  private employeeUrl = `${environment.apiUrl}api/employees`;
 
   constructor(private http: HttpClient) {}
 
@@ -74,6 +75,6 @@ export class StaffService {
       managerId: 0,
       store: null,
       manager: null,
-    }
+    };
   }
 }

@@ -20,8 +20,18 @@ export class DashboardComponent implements OnInit {
   orderCount$: Observable<number>;
   productCount$: Observable<number>;
 
-  customers$: Observable<IPagedResults<ICustomer[]>>;
-  orders$: Observable<IPagedResults<IOrder[]>>;
+  customers: IPagedResults<ICustomer[]>;
+  orders: IPagedResults<IOrder[]>;
+
+  orderFilter: OrderFilter = {
+    page: 1,
+    pageSize: 20,
+    search: '',
+    orderStatus: 0,
+    orderStoreId: 0,
+  };
+
+  customerFilter: CustomerFilter = { page: 1, pageSize: 20, search: '' };
 
   constructor(
     private customerService: CustomerService,
@@ -34,16 +44,41 @@ export class DashboardComponent implements OnInit {
     this.orderCount$ = this.orderService.getTotalOrderCount();
     this.productCount$ = this.productService.getTotalProductsCount();
 
-    const customerFilter: CustomerFilter = { page: 1, pageSize: 30, search: '' };
-    this.customers$ = this.customerService.getCustomers(customerFilter);
+    this.loadOrders();
+    this.loadCustomers();
+  }
 
-    const orderFilter: OrderFilter = {
-      page: 1,
-      pageSize: 20,
-      search: '',
-      orderStatus: 0,
-      orderStoreId: 0,
-    };
-    this.orders$ = this.orderService.getOrdersPaged(orderFilter);
+  loadOrders(): void {
+    this.orderService.getOrdersPaged(this.orderFilter).subscribe((data: IPagedResults<IOrder[]>) => {
+      this.orders = data;
+    });
+  }
+
+  ordersPageChanged(page: number): void {
+    this.orderFilter.page = page;
+    this.loadOrders();
+  }
+
+  ordersPageSizeChanged(pageSize: number): void {
+    this.orderFilter.page = 1;
+    this.orderFilter.pageSize = pageSize;
+    this.loadOrders();
+  }
+
+  loadCustomers(): void {
+    this.customerService.getCustomers(this.customerFilter).subscribe((data: IPagedResults<ICustomer[]>) => {
+      this.customers = data;
+    });
+  }
+
+  customersPageChanged(page: number): void {
+    this.customerFilter.page = page;
+    this.loadCustomers();
+  }
+
+  customersPageSizeChanged(pageSize: number): void {
+    this.customerFilter.page = 1;
+    this.customerFilter.pageSize = pageSize;
+    this.loadCustomers();
   }
 }

@@ -1,8 +1,10 @@
 <div ngbDropdown *ngIf="customer">
-    <button class="btn btn-sm btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{customer.firstName}} {{customer.lastName}}</button>
-    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+  <button class="btn btn-sm btn-outline-primary" ngbDropdownToggle>
+    {{ customer.firstName }} {{ customer.lastName }}
+  </button>
+  <div ngbDropdownMenu>
     <button ngbDropdownItem [routerLink]="['/customer', customer.customerId, 'edit']">View/Edit</button>
     <button ngbDropdownItem [routerLink]="['/customer', customer.customerId, 'orders']">Orders</button>
     <button ngbDropdownItem [routerLink]="['/create-order', customer.customerId]">Create Order</button>
-    </div>
+  </div>
 </div>

@@ -1,20 +1,23 @@
 <div *ngIf="staff">
-  <div class="card mb-3">
-    <div class="card-header">Filter</div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-lg-6">
-          <form class="form" #form="ngForm" (ngSubmit)="searchStaff()">
-            <div class="form-group">
-              <label for="search">Search</label>
-              <input type="text" class="form-control" name="search" [(ngModel)]="staffFilter.search" />
-            </div>
-            <button class="btn btn-primary">Search</button>
-          </form>
+  <app-filter-collapse filterBtnText="Filter Staff">
+    <div class="card mb-3">
+      <div class="card-header">Filter</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <form class="form" #form="ngForm" (ngSubmit)="searchStaff()">
+              <div class="form-group">
+                <label for="search">Search</label>
+                <input type="text" class="form-control" name="search" [(ngModel)]="staffFilter.search" />
+              </div>
+              <button class="btn btn-primary">Search</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </app-filter-collapse>
+
   <app-pagination
     [totalItems]="staff.totalRecords"
     [pageSize]="staff.pageSize"
@@ -43,7 +46,11 @@
           <td>{{ employee.active }}</td>
           <td>{{ employee.store?.storeName }}</td>
           <td>{{ employee.manager?.firstName }} {{ employee.manager?.lastName }}</td>
-          <td><button class="btn btn-sm btn-outline-primary" [routerLink]="['/staff', employee.staffId, 'edit']">Edit</button></td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary" [routerLink]="['/staff', employee.staffId, 'edit']">
+              Edit
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>

@@ -1,0 +1,15 @@
+<div *ngIf="lastViewedCustomers.length" ngbDropdown class="d-inline-block mr-3">
+  <button class="btn btn-secondary" [ngClass]="{'btn-success': addingCustomer}" ngbDropdownToggle>
+    {{btnText}}
+    <div class="badge badge-light">{{ lastViewedCustomers.length }}</div>
+  </button>
+  <div ngbDropdownMenu>
+    <button
+      ngbDropdownItem
+      *ngFor="let customer of lastViewedCustomers.slice().reverse()"
+      [routerLink]="['/customer', customer.customerId, 'edit']"
+    >
+      {{ customer.firstName }} {{ customer.lastName }}
+    </button>
+  </div>
+</div>

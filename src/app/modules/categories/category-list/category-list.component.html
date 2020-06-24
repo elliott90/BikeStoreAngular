@@ -1,20 +1,23 @@
 <div *ngIf="categories">
-  <div class="card mb-3">
-    <div class="card-header">Filter</div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-lg-6">
-          <form class="form" #form="ngForm" (ngSubmit)="searchCategories()">
-            <div class="form-group">
-              <label for="search">Search</label>
-              <input type="text" class="form-control" name="search" [(ngModel)]="categoryFilter.search" />
-            </div>
-            <button class="btn btn-primary">Search</button>
-          </form>
+  <app-filter-collapse filterBtnText="Filter Categories">
+    <div class="card mb-3">
+      <div class="card-header">Filter</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <form class="form" #form="ngForm" (ngSubmit)="searchCategories()">
+              <div class="form-group">
+                <label for="search">Search</label>
+                <input type="text" class="form-control form-control-sm" name="search" [(ngModel)]="categoryFilter.search" />
+              </div>
+              <button class="btn btn-primary">Search</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </app-filter-collapse>
+
   <app-pagination
     [totalItems]="categories.totalRecords"
     [pageSize]="categories.pageSize"
@@ -32,8 +35,12 @@
         <tr *ngFor="let category of categories.results">
           <td>{{ category.categoryId }}</td>
           <td>{{ category.categoryName }}</td>
-          <td>{{ category.productsInCategory }}</td> 
-          <td class="text-right"><button class="btn btn-sm btn-outline-primary" [routerLink]="['/category', category.categoryId, 'edit']">Edit</button></td>
+          <td>{{ category.productsInCategory }}</td>
+          <td class="text-right">
+            <button class="btn btn-sm btn-outline-primary" [routerLink]="['/category', category.categoryId, 'edit']">
+              Edit
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>

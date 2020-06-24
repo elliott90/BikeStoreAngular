@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { IApiResponse } from 'src/app/shared/interfaces/IApiResponse';
@@ -11,6 +11,7 @@ import { GrowlerService, GrowlerMessageType } from 'src/app/core/growler/growler
 import Swal from 'sweetalert2';
 import { IProduct } from 'src/app/shared/interfaces/IProduct';
 import { ProductService } from 'src/app/core/services/product.service';
+import { Role } from 'src/app/shared/enums/Role';
 
 function yearRange(minYear: number, maxYear: number) {
   return (c: AbstractControl): { [key: string]: boolean } | null => {
@@ -28,13 +29,13 @@ function yearRange(minYear: number, maxYear: number) {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductEditComponent implements OnInit {
-  pageTitle: string;
   categories$: Observable<ICategory[]>;
   brands$: Observable<IBrand[]>;
   productForm: FormGroup;
   product: IProduct;
   errorMessage: string;
   redirectToListAfterSave = false;
+  role = Role;
 
   get isNewProduct(): boolean {
     return this.productForm.get('productId').value === 0;
@@ -47,7 +48,8 @@ export class ProductEditComponent implements OnInit {
     private growlerService: GrowlerService,
     private route: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -90,17 +92,12 @@ export class ProductEditComponent implements OnInit {
 
       this.product = product;
       this.onProductRetrieved();
+      this.changeDetector.detectChanges();
     });
   }
 
   onProductRetrieved(): void {
     const { product } = this;
-
-    if (product.productId === 0) {
-      this.pageTitle = 'New Product';
-    } else {
-      this.pageTitle = `Editing: ${product.productName}`;
-    }
 
     this.productForm.reset();
     this.productForm.patchValue(product);

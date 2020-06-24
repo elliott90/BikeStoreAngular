@@ -52,14 +52,4 @@
   </div>
 </div>
 
-{{ staff | json }}
-
-<br />
-<br />
-<br />
-<br />
-<br />
-{{ staffForm.value | json }}
-{{ staffForm.valid | json }}
-{{ staffForm.touched | json }}
-{{ staffForm.dirty | json }}
+<app-debug-form [form]="staffForm"></app-debug-form>

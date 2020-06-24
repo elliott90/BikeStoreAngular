@@ -6,19 +6,16 @@
 <app-header></app-header>
 
 <div class="container-fluid">
-    <div class="row flex-xl-nowrap">
-        <div class="col-12 col-lg-2" style="border-right: 1px solid rgba(0, 0, 0, 0.1);">
-            <app-sidebar></app-sidebar>
-        </div>
-        <div class="col-12 col-lg-10 page-content">
-            <router-outlet></router-outlet>
-        </div>
+  <div class="row flex-xl-nowrap">
+    <div class="col-12 col-lg-2 sidebar-content" style="border-right: 1px solid rgba(0, 0, 0, 0.1);">
+      <app-sidebar></app-sidebar>
     </div>
-    
+    <div class="col-12 col-lg-10 page-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
 
 <app-growler position="top-right" timeout="2000"></app-growler>
 
-<app-overlay delay="300">
-    <span class="spinner"></span>&nbsp;&nbsp;&nbsp;Loading
-</app-overlay>
+<app-overlay delay="300"> <span class="spinner"></span>&nbsp;&nbsp;&nbsp;Loading </app-overlay>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { SharedModule } from '../../shared/shared.module';
 import { ProductComponent } from './product.component';
 import { ProductEditComponent } from './product-edit/product-edit.component';
@@ -13,6 +14,10 @@ const routes: Routes = [
     path: 'product/:id',
     component: ProductComponent,
     resolve: { resolvedData: ProductResolver },
+    canActivate: [AuthGuard],
+    data: {
+      roles: [],
+    },
     runGuardsAndResolvers: 'always',
     children: [
       {

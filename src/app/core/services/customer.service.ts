@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { IPagedResults } from 'src/app/shared/interfaces/IPagedResults';
 import { IPagedResponse } from 'src/app/shared/interfaces/IPagedResponse';
 import { IApiResponse } from 'src/app/shared/interfaces/IApiResponse';
+import { environment } from 'src/environments/environment';
 import { ICustomer } from '../../shared/interfaces/ICustomer';
 import { CustomerFilter } from '../filter-models/customer-filter';
 
@@ -12,10 +13,14 @@ import { CustomerFilter } from '../filter-models/customer-filter';
   providedIn: 'root',
 })
 export class CustomerService {
-  private customersUrl = 'https://localhost:44392/api/Customers';
+  private customersUrl = `${environment.apiUrl}api/Customers`;
   private recentlyViewedCustomerIds: number[] = [];
 
-  lastViewedCustomer = new Subject<ICustomer>();
+  private lastViewedCustomer = new Subject<ICustomer>();
+
+  get getRecentCustomer(): Observable<ICustomer> {
+    return this.lastViewedCustomer.asObservable();
+  }
 
   constructor(private http: HttpClient) {}
 

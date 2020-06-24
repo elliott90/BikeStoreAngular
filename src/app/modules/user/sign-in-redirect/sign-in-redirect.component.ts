@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth2Service } from 'src/app/core/services/auth2.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   template: `<div></div>`,
 })
 export class SignInRedirectComponent implements OnInit {
-  constructor(private _authService: Auth2Service, private _router: Router) {}
+  constructor(private _authService: AuthService, private _router: Router) {}
 
   ngOnInit(): void {
     this._authService.completeLogin().then((user) => {
@@ -17,7 +17,7 @@ export class SignInRedirectComponent implements OnInit {
         localStorage.removeItem('redirectAuthUrl');
         this._router.navigateByUrl(redirectUrl, { replaceUrl: true });
       } else {
-        this._router.navigate(['/'], { replaceUrl: true });
+        this._router.navigate(['/dashboard'], { replaceUrl: true });
       }
     });
   }

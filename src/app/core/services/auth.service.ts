@@ -1,56 +1,124 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { IUserLogin } from 'src/app/shared/interfaces/IUserLogin';
-import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+/* eslint-disable no-underscore-dangle */
+import { Injectable } from '@angular/core';
+import { UserManager, User, UserManagerSettings, SignoutResponse, WebStorageStateStore } from 'oidc-client';
+import { Constants } from 'src/app/constants';
+import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { AuthContext } from 'src/app/shared/model/auth-context';
+import { Router } from '@angular/router';
+import { Role } from 'src/app/shared/enums/Role';
+import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AuthService {
-  private authUrl = 'https://localhost:44392/api/Auth';
-  redirectUrl: string;
-  isAuthenticated = false;
+  private _userManager: UserManager;
+  private _user: User;
 
-  @Output() authChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
+  private _loginChangedSubject = new Subject<boolean>();
+  private _authContextSubject = new Subject<boolean>();
 
-  constructor(private http: HttpClient) {}
+  loginChanged = this._loginChangedSubject.asObservable();
+  authContextChanged = this._authContextSubject.asObservable();
+  authContext: AuthContext;
 
-  private userAuthChanged(status: boolean) {
-    this.authChanged.emit(status); // Raise changed event
+  redirectUrl = '/';
+
+  constructor(private _httpClient: HttpClient, private _router: Router) {
+    const stsSettings: UserManagerSettings = {
+      authority: Constants.stsAuthority,
+      client_id: Constants.clientId,
+      redirect_uri: `${Constants.clientRoot}signin-callback`,
+      scope: 'openid profile bikestoreapi roles',
+      response_type: 'code',
+      post_logout_redirect_uri: `${Constants.clientRoot}signout-callback`,
+      automaticSilentRenew: true,
+      silent_redirect_uri: `${Constants.clientRoot}assets/silent-callback.html`,
+      userStore: new WebStorageStateStore({ store: localStorage }),
+    };
+
+    this._userManager = new UserManager(stsSettings);
+    this._userManager.events.addAccessTokenExpired(() => {
+      this._loginChangedSubject.next(false);
+    });
+    this._userManager.events.addUserLoaded((user) => {
+      if (this._user !== user) {
+        this._user = user;
+        this.loadSecurityContext();
+        this._loginChangedSubject.next(!!user && !user.expired);
+      }
+    });
   }
 
-  login(userLogin: IUserLogin): Observable<boolean> {
-    return this.http.post<boolean>(this.authUrl + '/login', userLogin).pipe(
-      map((loggedIn) => {
-        console.log(loggedIn);
-        this.isAuthenticated = loggedIn;
-        this.userAuthChanged(loggedIn);
-        return loggedIn;
-      }),
-      catchError(this.handleError)
+  isAuthorized(): boolean {
+    return !!this._user;
+  }
+
+  login(): Promise<void> {
+    return this._userManager.signinRedirect();
+  }
+
+  isLoggedIn(): Promise<boolean> {
+    return this._userManager.getUser().then((user) => {
+      const userCurrent = !!user && !user.expired;
+      if (this._user !== user) {
+        this._loginChangedSubject.next(userCurrent);
+      }
+      if (userCurrent && !this.authContext) {
+        this.loadSecurityContext();
+      }
+      this._user = user;
+      return userCurrent;
+    });
+  }
+
+  completeLogin(): Promise<User> {
+    return this._userManager.signinRedirectCallback().then((user) => {
+      this._user = user;
+      this._loginChangedSubject.next(!!user && !user.expired);
+      return user;
+    });
+  }
+
+  logout(): void {
+    this._userManager.signoutRedirect();
+  }
+
+  completeLogout(): Promise<SignoutResponse> {
+    this._user = null;
+    this._loginChangedSubject.next(false);
+    this._authContextSubject.next(false);
+    return this._userManager.signoutRedirectCallback();
+  }
+
+  getAccessToken(): Promise<string | null> {
+    return this._userManager.getUser().then((user) => {
+      if (!!user && !user.expired) {
+        return user.access_token;
+      }
+
+      return null;
+    });
+  }
+
+  loadSecurityContext(): Promise<void> {
+    const obs = this._httpClient.get<AuthContext>(`${Constants.apiRoot}api/auth/AuthContext`).pipe(
+      map(
+        (context) => {
+          this.authContext = new AuthContext();
+          this.authContext.claims = context.claims;
+          this.authContext.userProfile = context.userProfile;
+          this._authContextSubject.next(true);
+        },
+        (error) => console.error(error)
+      )
     );
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    obs.subscribe((context) => {});
+    return obs.toPromise();
   }
 
-  logout(): Observable<boolean> {
-    return this.http.post<boolean>(this.authUrl + '/logout', null).pipe(
-      map((loggedOut) => {
-        this.isAuthenticated = !loggedOut;
-        this.userAuthChanged(!loggedOut);
-        return loggedOut;
-      }),
-      catchError(this.handleError)
-    );
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    console.error('server error:', error);
-    if (error.error instanceof Error) {
-      const errMessage = error.error.message;
-      return Observable.throw(errMessage);
-      // Use the following instead if using lite-server
-      // return Observable.throw(err.text() || 'backend server error');
-    }
-    return Observable.throw(error || 'Server error');
+  isInRole(role: Role): boolean {
+    return this.isLoggedIn && this.authContext && this.authContext.roles.some((x) => x === role.toString());
   }
 }

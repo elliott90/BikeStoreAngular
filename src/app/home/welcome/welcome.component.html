@@ -1,67 +1,19 @@
-
 <div class="row justify-content-center my-5">
-    <div class="col-lg-8">
+  <div class="col-lg-8">
+    <h1>Store Management Demo</h1>
 
-        <h2>Notes</h2>
+    <p class="text-danger">Please login to start, you will need to open a private window, or different browser to login to both.</p>
 
-        <b><a [routerLink]="['/products']">Products</a></b>
-
-        <p>
-            Products page shows a paginated list of all products with a search form. The search form will fire when the user changes an input, but the search function makes use of the RxJs Debounce function to wait for the user to stop making changes - This means the api call to the server is only attempted when the user finishes typing for 1 second rather than after each key press, reducing the strain on the api server.
-            <br><br> Read more on RxJs here: <a href="https://angular.io/guide/rx-library" target="blank">https://angular.io/guide/rx-library</a>
-            <br>When searching for products and navigating away from the page and returning again, it will remember your search criteria.
-        </p>
-
-        <b><a [routerLink]="['/product', 1, 'edit']">Product</a></b>
-
-        <p>
-            The product detail page has 3 tabs showing the edit form for the product, the stock holding for each store and all the orders for that particular product.
-            <br><br>The product edit form makes use of Angular Reactive Forms, <a href="https://angular.io/guide/reactive-forms" target="blank">https://angular.io/guide/reactive-forms</a>.
-            <br>If you try and change the model year to before 2000 or after 2021 you will get an invalid form error and the submit button will be disbaled until the entire form is valid.
-        </p>
-
-        <b><a [routerLink]="['/orders']">Orders</a></b>
-
-        <p>
-            Orders page shows a paginated list of all orders, ordered by order date. The filter form uses the template-driven forms: <a href="https://angular.io/guide/forms" target="blank">https://angular.io/guide/forms</a>
-            <br>The date range form field is using <a href="https://ng-bootstrap.github.io/#/components/datepicker/overview" target="blank">ng-bootstrap</a>, a third party module built by bootstrap for angular.
-        </p>
-
-        <b><a [routerLink]="['/order', 1, 'edit']">Order</a></b>
-
-        <p>
-            An order detail page is protected using a route guard. Meaning you will need to login before you can view this page. Upon logging in you will be redirected the requested page.
-            <br> Username: 'admin', Password: 'password'.
-        </p>
-
-        <b><a [routerLink]="['/customers']">Customers</a></b>
-
-        <p>
-            Customers page shows a paginated list of all customers.
-        </p>
-
-        <b><a [routerLink]="['/customer', 1, 'edit']">Customer</a></b>
-
-        <p>
-            When navigating to a customer edit/detail page, a dropdown list will appear in the header showing your 5 most recently viewed customers.
-            <br> This could be helpful in a situation where you are dealing with multiple customers at the same time.
-            <br> The dropdown list is making use of a Subject within the RxJs toolset: <a href="https://rxjs-dev.firebaseapp.com/guide/subject" target="blank">https://rxjs-dev.firebaseapp.com/guide/subject</a> meaning that multiple components can listen to an output as an observable and watch for changes.
-        </p>
-
-        <b><a>Other</a></b>
-
-        <p><b>Container Components</b></p>
-        <p>For example the product edit and customer edit page make use of a top level container component which handle the inner child views and routing.</p> 
-
-        <p><b>Presentational Components</b></p>
-        <p>These components take data as input and know how to display it on the screen, they can also emit custom events to the parent.</p> 
-
-        <p><b>HTTP Interceptors</b></p>
-
-        <p>
-            The app using a HTTP Interceptor: <a href="https://angular.io/api/common/http/HttpInterceptor" target="blank">https://angular.io/api/common/http/HttpInterceptor</a> which intercepts all http requests and responses and will show a loading overlay if a httprequest in progress.
-            <br>There are many things you can do with an interceptor, for example you could cache data client side so each time the user requests the same data, we can just get it from the cache to save resource and time. 
-            <br>You could also add headers to each request to a specific URL.
-        </p>
+    <div class="alert alert-success">
+      <h4 class="alert-heading">Admin</h4>
+      Username: admin<br />
+      Password: Password!123
     </div>
+
+    <div class="alert alert-success">
+      <h4 class="alert-heading">Member</h4>
+      Username: member<br />
+      Password: Password!123
+    </div>
+  </div>
 </div>

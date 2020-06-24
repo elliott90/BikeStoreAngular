@@ -1,12 +1,11 @@
-<div class="alert alert-danger" *ngIf="errorMessage" [innerHTML]="errorMessage">
-  
-</div>
+<div class="alert alert-danger" *ngIf="errorMessage" [innerHTML]="errorMessage"></div>
 
-<app-product-list-criteria
-  class="col-md-12"
-  (valueChange)="performFilter($event)"
-  [filter]="filter"
-></app-product-list-criteria>
+<app-filter-collapse filterBtnText="Filter Products">
+  <app-product-list-criteria
+    (valueChange)="performFilter($event)"
+    [filter]="filter"
+  ></app-product-list-criteria>
+</app-filter-collapse>
 
 <app-pagination
   [totalItems]="totalRecords"

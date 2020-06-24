@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IStates } from 'src/app/shared/interfaces/IState';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilsService {
-  private utilsUrl = 'https://localhost:44392/api/Utils';
+  private utilsUrl = `${environment.apiUrl}api/Utils`;
 
   constructor(private http: HttpClient) {}
 

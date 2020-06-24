@@ -6,7 +6,6 @@ import { OrderStatusEnum } from 'src/app/shared/enums/OrderStatusEnum';
 import { ActivatedRoute } from '@angular/router';
 import { IProduct } from 'src/app/shared/interfaces/IProduct';
 import { OrderFilter } from 'src/app/core/filter-models/order-filter';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { IOrder } from 'src/app/shared/interfaces/IOrder';
 
 @Component({
@@ -30,7 +29,7 @@ export class ProductOrdersComponent implements OnInit {
     orderStoreId: 0,
   };
 
-  constructor(private orderService: OrderService, private route: ActivatedRoute, private authService: AuthService) {}
+  constructor(private orderService: OrderService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.pageSize = 10;
@@ -62,9 +61,5 @@ export class ProductOrdersComponent implements OnInit {
         this.orders = data.results;
         this.totalRecords = data.totalRecords;
       });
-  }
-
-  isAdmin(): boolean {
-    return this.authService.isAuthenticated;
   }
 }

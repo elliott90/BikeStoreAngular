@@ -1,0 +1,13 @@
+<div class="input-loader mr-3">
+  <input
+    class="form-control"
+    type="text"
+    id="productSearchID"
+    placeholder="Search products"
+    [ngbTypeahead]="productSearch"
+    [resultFormatter]="productFormatter"
+    [inputFormatter]="productInputFormatter"
+    (selectItem)="selectProduct($event)"
+  />
+  <div class="search-spinner" *ngIf="searching"><i class="fa fa-spinner fa-spin"></i></div>
+</div>

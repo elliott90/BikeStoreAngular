@@ -16,7 +16,6 @@ export class CustomerListComponent implements OnInit {
   customers: ICustomer[];
   states$: Observable<IStates[]>;
   totalRecords: number;
-  pageSize: number;
 
   customerFilter: CustomerFilter = {
     page: 1,
@@ -28,7 +27,6 @@ export class CustomerListComponent implements OnInit {
   constructor(private customerService: CustomerService, private utilsService: UtilsService) {}
 
   ngOnInit(): void {
-    this.pageSize = 30;
 
     this.states$ = this.utilsService.getListOfStates();
     this.getCustomersPaged();

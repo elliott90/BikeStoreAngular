@@ -4,12 +4,12 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpHeaders } fro
 import { Observable, from } from 'rxjs';
 import { Constants } from 'src/app/constants';
 import { Router } from '@angular/router';
-import { Auth2Service } from '../services/auth2.service';
+import { AuthService } from '../services/auth.service';
 import { GrowlerService } from '../growler/growler.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private _authService: Auth2Service, private _router: Router, private _growlerService: GrowlerService) {}
+  constructor(private _authService: AuthService, private _router: Router, private _growlerService: GrowlerService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // only if we are fetching from our api

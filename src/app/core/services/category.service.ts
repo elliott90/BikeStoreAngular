@@ -6,13 +6,14 @@ import { IPagedResults } from 'src/app/shared/interfaces/IPagedResults';
 import { map } from 'rxjs/operators';
 import { IPagedResponse } from 'src/app/shared/interfaces/IPagedResponse';
 import { IApiResponse } from 'src/app/shared/interfaces/IApiResponse';
+import { environment } from 'src/environments/environment';
 import { CategoryFilter } from '../filter-models/category-filter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  private categoryUrl = 'https://localhost:44392/api/Categories';
+  private categoryUrl = `${environment.apiUrl}api/Categories`;
 
   constructor(private http: HttpClient) {}
 

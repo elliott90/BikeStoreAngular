@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
 import { SharedModule } from '../../shared/shared.module';
 import { SignInRedirectComponent } from './sign-in-redirect/sign-in-redirect.component';
 import { SignOutRedirectComponent } from './sign-out-redirect/sign-out-redirect.component';
@@ -10,10 +9,6 @@ import { UnauthorisedComponent } from './unauthorised/unauthorised.component';
   imports: [
     SharedModule,
     RouterModule.forChild([
-      {
-        path: 'login',
-        component: LoginComponent,
-      },
       {
         path: 'unauthorised',
         component: UnauthorisedComponent,
@@ -28,6 +23,6 @@ import { UnauthorisedComponent } from './unauthorised/unauthorised.component';
       },
     ]),
   ],
-  declarations: [LoginComponent, SignInRedirectComponent, SignOutRedirectComponent, UnauthorisedComponent],
+  declarations: [SignInRedirectComponent, SignOutRedirectComponent, UnauthorisedComponent],
 })
 export class UserModule {}

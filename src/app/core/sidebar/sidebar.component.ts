@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Role } from 'src/app/shared/enums/Role';
-import { Auth2Service } from '../services/auth2.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,7 +10,7 @@ export class SidebarComponent {
   isLoggedIn = false;
   role = Role;
 
-  constructor(private authService: Auth2Service) {
+  constructor(private authService: AuthService) {
     this.authService.loginChanged.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
     });

@@ -1,9 +1,55 @@
-<div class="row">
-  <div class="col-lg-8">
-    <div class="card" *ngIf="product">
-      <div class="card-header">{{ pageTitle }}</div>
-      <div class="card-body">
-        <form novalidate class="form-group" [formGroup]="productForm" (ngSubmit)="saveChanges()">
+<form novalidate [formGroup]="productForm" (ngSubmit)="saveChanges()">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="d-flex justify-content-center mb-4">
+        <p><b>{{ product.productName }}</b></p>
+        <div class="ml-auto">
+          <button
+            class="btn btn-success"
+            type="submit"
+            [disabled]="!productForm.valid"
+            [title]="productForm.valid ? 'Save & redirect to products' : 'Invalid Form'"
+            (click)="saveChangesAndRedirectToList()"
+          >
+            <i class="fa fa-save"></i>Save
+          </button>
+          <button
+            class="btn btn-success"
+            type="submit"
+            [disabled]="!productForm.valid"
+            [title]="productForm.valid ? 'Save & stay on page' : 'Invalid Form'"
+          >
+            <i class="fa fa-save"></i>Save & Continue Editing
+          </button>
+
+          <button
+            class="btn btn-danger"
+            type="button"
+            [appDisabledControl]="[role.Admin]"
+            [swal]="deleteSwal"
+            *ngIf="!isNewProduct"
+          >
+            <i class="fa fa-trash"></i>Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <swal
+      #deleteSwal
+      title="Delete {{ product.productName }}?"
+      text="This cannot be undone, this will also delete any related stock and order information"
+      icon="question"
+      [showCancelButton]="true"
+      [focusCancel]="true"
+      (confirm)="deleteProduct()"
+    >
+    </swal>
+
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">Product Info</div>
+        <div class="card-body">
           <div class="form-group row">
             <div class="col-md-3">Product Name</div>
             <div class="col-md-9">
@@ -110,53 +156,10 @@
               >
             </div>
           </div>
-
-          <div class="form-group row">
-            <div class="col-md-3"></div>
-            <div class="col-md-9">
-              <div class="d-flex">
-                <swal
-                  #deleteSwal
-                  title="Delete {{ product.productName }}?"
-                  text="This cannot be undone, this will also delete any related stock and order information"
-                  icon="question"
-                  [showCancelButton]="true"
-                  [focusCancel]="true"
-                  (confirm)="deleteProduct()"
-                >
-                </swal>
-
-                <button class="btn btn-danger" type="button" [swal]="deleteSwal" *ngIf="!isNewProduct">
-                  Delete
-                </button>
-
-                <div class="ml-auto">
-                  <button
-                    class="btn btn-outline-success"
-                    type="submit"
-                    [disabled]="!productForm.valid"
-                    [title]="productForm.valid ? 'Save & redirect to products' : 'Invalid Form'"
-                    (click)="saveChangesAndRedirectToList()"
-                  >
-                    Save
-                  </button>
-                  <button
-                    class="btn btn-outline-success"
-                    type="submit"
-                    [disabled]="!productForm.valid"
-                    [title]="productForm.valid ? 'Save & stay on page' : 'Invalid Form'"
-                  >
-                    Save & Continue Editing
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</form>
 
-<br />Dirty: {{ productForm.dirty }} <br />Touched: {{ productForm.touched }} <br />Valid: {{ productForm.valid }}
-<br />Pristine: {{ productForm.pristine }} <br />Value: {{ productForm.value | json }}
+<app-debug-form [form]="productForm"></app-debug-form>

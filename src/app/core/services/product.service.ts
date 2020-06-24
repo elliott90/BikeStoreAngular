@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { IApiResponse } from 'src/app/shared/interfaces/IApiResponse';
+import { environment } from 'src/environments/environment';
 import { IProduct } from '../../shared/interfaces/IProduct';
 import { IPagedResults } from '../../shared/interfaces/IPagedResults';
 import { IPagedResponse } from '../../shared/interfaces/IPagedResponse';
@@ -13,7 +14,7 @@ import { ProductFilter } from '../filter-models/product-filter';
   providedIn: 'root',
 })
 export class ProductService {
-  private productsUrl = 'https://localhost:44392/api/Products';
+  private productsUrl = `${environment.apiUrl}api/Products`;
 
   constructor(private http: HttpClient) {}
 

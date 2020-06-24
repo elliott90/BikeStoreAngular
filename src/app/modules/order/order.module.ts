@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { OrderComponent } from './order.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { SharedModule } from '../../shared/shared.module';
-import { CanActivateGuard } from './guards/can-activate.guard';
 
 const routes: Routes = [
   {
     path: 'order/:id',
     component: OrderComponent,
-    canActivate: [CanActivateGuard],
+    canActivate: [AuthGuard],
+    data: {
+      roles: [],
+    },
     children: [
       {
         path: '',

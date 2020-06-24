@@ -17,15 +17,16 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (error.error instanceof ErrorEvent) {
           // client-side error
           errorMessage = `Error: ${error.error.message}`;
+          this.growlService.dangerGrowl(`${errorMessage}`);
         } else {
           // server-side error
           const respError = error as HttpErrorResponse;
           if (respError && (respError.status === 401 || respError.status === 403)) {
             this.router.navigate(['/unauthorised']);
           }
-          errorMessage = `Error ${error.status}<br>${error.message}`;
+          errorMessage = `Error ${error.status}: ${error.error ? error.error : error.message}`;
+          this.growlService.dangerGrowl(`${errorMessage}`);
         }
-        this.growlService.dangerGrowl(`Error ${error.status}: There was error, please try again.`);
         console.log(errorMessage);
         return throwError(errorMessage);
       })

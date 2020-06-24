@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { StoresComponent } from './stores.component';
 import { SharedModule } from '../../shared/shared.module';
 import { StoreListComponent } from './store-list/store-list.component';
@@ -10,6 +11,10 @@ const routes: Routes = [
   {
     path: 'stores',
     component: StoresComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: [],
+    },
     children: [
       {
         path: '',

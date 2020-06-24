@@ -168,5 +168,4 @@
   </div>
 </div>
 
-<br />Dirty: {{ storeForm.dirty }} <br />Touched: {{ storeForm.touched }} <br />Valid: {{ storeForm.valid }}
-<br />Value: {{ storeForm.value | json }}
+<app-debug-form [form]="storeForm"></app-debug-form>

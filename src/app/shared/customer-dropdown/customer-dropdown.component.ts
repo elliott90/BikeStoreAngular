@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ICustomer } from '../interfaces/ICustomer';
 
 @Component({
@@ -7,12 +7,6 @@ import { ICustomer } from '../interfaces/ICustomer';
   styleUrls: ['./customer-dropdown.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomerDropdownComponent implements OnInit {
+export class CustomerDropdownComponent {
   @Input() customer: ICustomer;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

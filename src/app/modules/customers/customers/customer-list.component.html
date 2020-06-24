@@ -1,68 +1,47 @@
-<form class="card bg-light mb-3" #form="ngForm" (ngSubmit)="searchCustomers()">
-  <div class="card-header">
-    Filter
-  </div>
-  <div class="card-body">
-    <div class="row">
-      <div class="col-lg-3">
-        <div class="form-group">
-          <label for="search">Search</label>
-          <input
-            type="text"
-            id="search"
-            name="search"
-            class="form-control form-control-sm"
-            [(ngModel)]="customerFilter.search"
-            placeholder="Customer Name, Email Address"
-          />
+<app-filter-collapse filterBtnText="Filter Customers"> 
+  <form class="card bg-light mb-3" #form="ngForm" (ngSubmit)="searchCustomers()">
+    <div class="card-header">
+      Filter
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label for="search">Search</label>
+            <input
+              type="text"
+              id="search"
+              name="search"
+              class="form-control form-control-sm"
+              [(ngModel)]="customerFilter.search"
+              placeholder="Customer Name, Email Address"
+            />
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-group">
+            <label for="state">State</label>
+            <select name="state" id="state" [(ngModel)]="customerFilter.state" class="form-control form-control-sm">
+              <option value="">Any</option>
+              <option *ngFor="let state of states$ | async" [value]="state.abbreviation">{{ state.name }}</option>
+            </select>
+          </div>
         </div>
       </div>
-      <div class="col-lg-3">
-        <div class="form-group">
-          <label for="state">State</label>
-          <select name="state" id="state" [(ngModel)]="customerFilter.state" class="form-control form-control-sm">
-            <option value="">Any</option>
-            <option *ngFor="let state of states$ | async" [value]="state.abbreviation">{{ state.name }}</option>
-          </select>
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-sm btn-primary">Search</button>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col">
-        <button class="btn btn-sm btn-primary">Search</button>
-      </div>
-    </div>
-  </div>
-</form>
+  </form>
+</app-filter-collapse>
 
 <app-pagination
   [totalItems]="totalRecords"
-  [pageSize]="pageSize"
+  [pageSize]="customerFilter.pageSize"
   (pageChanged)="pageChanged($event)"
   (pageSizeChanged)="pageSizeChanged($event)"
 >
-  <table class="table table-sm table-hover">
-    <thead class="thead-dark">
-      <tr>
-        <th>Customer Id</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Orders</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let cust of customers">
-        <td>{{ cust.customerId }}</td>
-        <td>{{ cust.firstName }} {{ cust.lastName }}</td>
-        <td>{{ cust.email }}</td>
-        <td>{{ cust.phone }}</td>
-        <td>{{ cust.ordersCount }}</td>
-        <td class="text-right">
-          <button class="btn btn-sm btn-outline-primary" [routerLink]="['/customer', cust.customerId]">Details</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <app-customer-list [customers]="customers"></app-customer-list>
 </app-pagination>

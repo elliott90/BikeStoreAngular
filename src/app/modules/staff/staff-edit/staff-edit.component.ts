@@ -63,7 +63,6 @@ export class StaffEditComponent implements OnInit {
   }
 
   saveChanges(): void {
-    debugger;
     if (this.staffForm.valid) {
       const staff: IStaff = { ...this.staff, ...this.staffForm.value };
 

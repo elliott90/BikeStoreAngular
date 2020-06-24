@@ -1,0 +1,17 @@
+<div class="d-flex justify-content-center mb-3">
+  <button
+    type="button"
+    class="btn px-5"
+    [ngClass]="{ 'btn-danger': !isCollapsed, 'btn-success': isCollapsed }"
+    (click)="isCollapsed = !isCollapsed"
+    [attr.aria-expanded]="!isCollapsed"
+  >
+    <i class="fa fa-filter" *ngIf="isCollapsed"></i>
+    <i class="fa fa-times" *ngIf="!isCollapsed"></i>
+    {{ filterBtnText }}
+  </button>
+</div>
+
+<div [ngbCollapse]="isCollapsed">
+  <ng-content></ng-content>
+</div>

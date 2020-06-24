@@ -37,7 +37,7 @@
             </div>
 
             <hr />
-          </div>          
+          </div>
 
           <div formGroupName="customer">
             <h5 class="card-title">Customer Details</h5>
@@ -145,7 +145,7 @@
                 <input
                   class="form-control"
                   type="text"
-                  id="productSearchID"
+                  id="productSearch"
                   placeholder="Search product Name or product id"
                   formControlName="productSearch"
                   [ngbTypeahead]="productSearch"
@@ -259,11 +259,4 @@
   </div>
 </div>
 
-Dirty: {{ orderForm.dirty | json }}<br />
-Touched: {{ orderForm.touched | json }}<br />
-Valid: {{ orderForm.valid | json }}<br />
-Value: {{ orderForm.value | json }}<br />
-
-<pre>
-    {{ orderForm.value | json }}
-</pre>
+<app-debug-form [form]="orderForm"></app-debug-form>

@@ -12,17 +12,42 @@
 </div>
 
 <div class="row">
-  <div class="col-lg-6" *ngIf="orders$ | async as orders">
+  <div class="col-lg-6" *ngIf="orders">
     <div class="stat-box">
       <div class="stat-box__title">
         <h5>Orders</h5>
         <div class="stat-box__tools">
-            <button class="btn btn-sm btn-outline-primary" [routerLink]="['/orders', 'list', 'all']">View All</button>
+          <button class="btn btn-sm btn-outline-primary" [routerLink]="['/orders', 'list', 'all']">View All</button>
         </div>
       </div>
       <div class="stat-box__content">
-        <app-pagination [totalItems]="orders.totalRecords" pageSize="10">
+        <app-pagination
+          [totalItems]="orders.totalRecords"
+          [pageSize]="orderFilter.pageSize"
+          (pageChanged)="ordersPageChanged($event)"
+          (pageSizeChanged)="ordersPageSizeChanged($event)"
+        >
           <app-orders-list [orders]="orders.results" size="sm"></app-orders-list>
+        </app-pagination>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6" *ngIf="customers">
+    <div class="stat-box">
+      <div class="stat-box__title">
+        <h5>Customers</h5>
+        <div class="stat-box__tools">
+          <button class="btn btn-sm btn-outline-primary" [routerLink]="['/customers', 'list', 'all']">View All</button>
+        </div>
+      </div>
+      <div class="stat-box__content">
+        <app-pagination
+          [totalItems]="customers.totalRecords"
+          [pageSize]="customerFilter.pageSize"
+          (pageChanged)="customersPageChanged($event)"
+          (pageSizeChanged)="customersPageSizeChanged($event)"
+        >
+          <app-customer-list [customers]="customers.results" size="sm"></app-customer-list>
         </app-pagination>
       </div>
     </div>

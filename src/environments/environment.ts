@@ -4,6 +4,9 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'https://localhost:44392/',
+  stsUrl: 'https://localhost:5001',
+  clientRoot: 'http://localhost:4200/',
 };
 
 /*

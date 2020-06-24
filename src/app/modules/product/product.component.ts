@@ -10,7 +10,6 @@ import { ProductService } from '../../core/services/product.service';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ProductComponent implements OnInit {
-  productName: string;
   product: IProduct;
   errorMessage: string;
 
@@ -24,19 +23,7 @@ export class ProductComponent implements OnInit {
     this.route.data.subscribe((data) => {
       const { resolvedData } = data;
       this.errorMessage = resolvedData.error;
-      this.onProductRetrieved(resolvedData.product);
+      this.product = resolvedData.product;
     });
-  }
-
-  onProductRetrieved(product: IProduct): void {
-    this.product = product;
-
-    if (!this.product) {
-      this.productName = 'No product found';
-    } else if (this.product.productId === 0) {
-      this.productName = 'Add Product';
-    } else {
-      this.productName = `${this.product.productName}`;
-    }
   }
 }

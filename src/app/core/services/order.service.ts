@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { IPagedResponse } from 'src/app/shared/interfaces/IPagedResponse';
 import { IPagedResults } from 'src/app/shared/interfaces/IPagedResults';
 import { IOrder } from 'src/app/shared/interfaces/IOrder';
+import { environment } from 'src/environments/environment';
 import { OrderFilter } from '../filter-models/order-filter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
-  private ordersUrl = 'https://localhost:44392/api/Orders';
+  private ordersUrl = `${environment.apiUrl}api/Orders`;
 
   constructor(private http: HttpClient) {}
 

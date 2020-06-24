@@ -8,7 +8,6 @@ import * as moment from 'moment';
 import { OrderFilter } from 'src/app/core/filter-models/order-filter';
 import { IStore } from 'src/app/shared/interfaces/IStore';
 import { StoreService } from 'src/app/core/services/store.service';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -70,7 +69,6 @@ export class AllOrdersComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private storeService: StoreService,
-    private authService: AuthService,
     private calendar: NgbCalendar,
     public formatter: NgbDateParserFormatter
   ) {
@@ -143,9 +141,5 @@ export class AllOrdersComponent implements OnInit {
   validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
     const parsed = this.formatter.parse(input);
     return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
-  }
-
-  isAdmin(): boolean {
-    return this.authService.isAuthenticated;
   }
 }

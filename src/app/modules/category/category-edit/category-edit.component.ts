@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UtilsService } from 'src/app/core/services/utils.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { ICategory } from 'src/app/shared/interfaces/ICategory';
@@ -9,7 +8,6 @@ import { GrowlerService } from 'src/app/core/growler/growler.service';
 @Component({
   selector: 'app-category-edit',
   templateUrl: './category-edit.component.html',
-  styleUrls: ['./category-edit.component.scss'],
 })
 export class CategoryEditComponent implements OnInit {
   category: ICategory;
@@ -22,6 +20,10 @@ export class CategoryEditComponent implements OnInit {
     private growlerService: GrowlerService,
     private fb: FormBuilder
   ) {}
+
+  get isNewCategory(): boolean {
+    return this.categoryForm.get('categoryId').value === 0;
+  }
 
   ngOnInit(): void {
     this.route.parent.paramMap.subscribe((params) => {
@@ -40,7 +42,10 @@ export class CategoryEditComponent implements OnInit {
 
   onCategoryRetrieved(category: ICategory): void {
     this.category = category;
-    this.categoryForm.patchValue(category);
+    this.categoryForm.patchValue({
+      categoryId: category.categoryId,
+      categoryName: category.categoryName,
+    });
   }
 
   saveChanges(): void {
@@ -63,6 +68,12 @@ export class CategoryEditComponent implements OnInit {
   createCategory(category: ICategory): void {
     this.categoryService.addCategory(category).subscribe(() => {
       this.growlerService.successGrowl(`Added ${category.categoryName}`);
+      this.router.navigate(['categories', 'list']);
+    });
+  }
+
+  deleteCategory(): void {
+    this.categoryService.deleteCategory(this.category).subscribe(() => {
       this.router.navigate(['categories', 'list']);
     });
   }

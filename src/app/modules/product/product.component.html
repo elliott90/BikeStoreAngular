@@ -1,8 +1,8 @@
 <header class="bg-light pt-4 pb-md-5 px-4 px-lg-5 d-flex d-md-block align-items-center title">
     <div class="d-flex">
-        <h1 class="mb-4 mr-auto mr-md-none">{{productName}}</h1>
+        <h1 class="mb-4 mr-auto mr-md-none">Product Edit</h1>
         <div class="ml-auto">
-            <button class="btn btn-outline-secondary" [routerLink]="['/products', 'list', 'all']" title="View all products">View All</button>
+            <button class="btn btn-outline-secondary" [routerLink]="['/products', 'list', 'all']" title="View all products"><i class="fa fa-list"></i>View All</button>
         </div>
     </div>
     
@@ -20,6 +20,5 @@
 </header>
 
 <div class="container-fluid pt-3 pb-5 px-2 px-md-4 px-lg-2">
-    <p *ngIf="errorMessage">{{errorMessage}}</p>
     <router-outlet></router-outlet>
 </div>

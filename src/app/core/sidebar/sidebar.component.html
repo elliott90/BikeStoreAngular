@@ -1,34 +1,54 @@
-<nav class="d-lg-block my-3 collapse sidebar">
-    <a routerLink="/">BIKE STORE</a>
+<nav class="d-lg-block collapse sidebar">
+  <ul class="sidebar__menu">
+    <li class="sidebar__admin-title">
+      <a routerLink="/">BIKE STORE</a>
+    </li>
+    <li *ngIf="!isLoggedIn">
+      <a class="sidebar-link" [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        >Home</a
+      >
+    </li>
+    <li *ngIf="isLoggedIn">
+      <a class="sidebar-link" [routerLink]="['/dashboard']" routerLinkActive="active">Dashboard</a>
+    </li>
+    <li *ngIf="isLoggedIn">
+      <a class="sidebar-link" [routerLink]="['/products', 'list', 'all']" routerLinkActive="active">Products</a>
+    </li>
+    <li *ngIf="isLoggedIn">
+      <a class="sidebar-link" [routerLink]="['/orders', 'list', 'all']" routerLinkActive="active">Orders</a>
+    </li>
+    <li *ngIf="isLoggedIn">
+      <a class="sidebar-link" [routerLink]="['/create-order']" routerLinkActive="active">Create Order</a>
+    </li>
+    <li *ngIf="isLoggedIn">
+      <a class="sidebar-link" [routerLink]="['/customers']" routerLinkActive="active">Customers</a>
+    </li>
+    <li *ngIf="isLoggedIn">
+      <a class="sidebar-link" [routerLink]="['/stores']" routerLinkActive="active">Stores</a>
+    </li>
 
-    <ul class="sidebar-menu">
-        <li>
-            <a [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-        </li>
-        <li *ngIf="isLoggedIn && isAdmin">
-            <a [routerLink]="['/products', 'list', 'all']" routerLinkActive="active">Products</a>
-        </li>
-        <li *ngIf="isLoggedIn">
-            <a [routerLink]="['/orders', 'list', 'all']" routerLinkActive="active">Orders</a>
-        </li>
-        <li *ngIf="isLoggedIn">
-            <a [routerLink]="['/create-order']" routerLinkActive="active">Create Order</a>
-        </li>
-        <li *ngIf="isLoggedIn">
-            <a [routerLink]="['/customers']" routerLinkActive="active">Customers</a>
-        </li>
-        <li *ngIf="isLoggedIn">
-            <a [routerLink]="['/stores']" routerLinkActive="active">Stores</a>
-        </li>
-        <li *ngIf="isLoggedIn">
-            <a [routerLink]="['/staff']" routerLinkActive="active">Staff</a>
-        </li>
-        <li *ngIf="isLoggedIn">
-            <a [routerLink]="['/categories']" routerLinkActive="active">Categories</a>
-        </li>
+    <ul *ngIf="isAdmin">
+      <li class="sidebar__admin-title">
+        Admin
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a class="sidebar-link" [routerLink]="['/categories']" routerLinkActive="active">Categories</a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a class="sidebar-link" [routerLink]="['/brands']" routerLinkActive="active">Brands</a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a class="sidebar-link" [routerLink]="['/staff']" routerLinkActive="active">Staff</a>
+      </li>
     </ul>
+
+    <ul *ngIf="isLoggedIn">
+      <li class="sidebar__admin-title">
+        Help
+      </li>
+      <li>
+        <a class="sidebar-link" [routerLink]="['/help']" routerLinkActive="active">Help</a>
+      </li>
+    </ul>
+  </ul>
 </nav>
-
-
-
-

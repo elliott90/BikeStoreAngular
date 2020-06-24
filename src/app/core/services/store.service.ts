@@ -5,13 +5,14 @@ import { IStore } from 'src/app/shared/interfaces/IStore';
 import { map } from 'rxjs/operators';
 import { IPagedResults } from 'src/app/shared/interfaces/IPagedResults';
 import { IPagedResponse } from 'src/app/shared/interfaces/IPagedResponse';
+import { environment } from 'src/environments/environment';
 import { StoreFilter } from '../filter-models/store-filter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StoreService {
-  private storeUrl = 'https://localhost:44392/api/Stores';
+  private storeUrl = `${environment.apiUrl}api/Stores`;
 
   constructor(private http: HttpClient) {}
 

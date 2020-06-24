@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { AllProductsComponent } from './product-list/all-products.component';
 import { ProductEditGuard } from './product-edit.guard';
 import { SharedModule } from '../../shared/shared.module';
@@ -13,6 +14,7 @@ const productsRoutes: Routes = [
   {
     path: 'products',
     component: ProductsComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',

@@ -1,5 +1,5 @@
 import { Directive, OnInit, ElementRef, Input } from '@angular/core';
-import { Auth2Service } from 'src/app/core/services/auth2.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { Role } from '../enums/Role';
 
 @Directive({
@@ -17,7 +17,7 @@ export class UserRoleDirective implements OnInit {
 
   userRoles: Role[];
 
-  constructor(private el: ElementRef, private authservice: Auth2Service) {}
+  constructor(private el: ElementRef, private authservice: AuthService) {}
 
   ngOnInit(): void {
     let hasAccess = false;
@@ -29,16 +29,5 @@ export class UserRoleDirective implements OnInit {
     if (!hasAccess) {
       this.el.nativeElement.style.display = 'none';
     }
-    // if (!this.authservice.isLoggedIn) {
-    //   this.el.nativeElement.style.display = 'none';
-    // }
-
-    // this.authservice.authContextChanged.subscribe(() => {
-    //   if (!this.authservice.isInRole(this.role)) {
-    //     this.el.nativeElement.style.display = 'none';
-    //   } else {
-    //     this.el.nativeElement.removeAttribute('display');
-    //   }
-    // });
   }
 }

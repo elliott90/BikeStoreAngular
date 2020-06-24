@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth2Service } from 'src/app/core/services/auth2.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   template: `<div></div>`,
 })
 export class SignOutRedirectComponent implements OnInit {
-  constructor(private _authService: Auth2Service, private _router: Router) {}
+  constructor(private _authService: AuthService, private _router: Router) {}
 
   ngOnInit(): void {
     this._authService.completeLogout().then((_) => {

@@ -1,16 +1,19 @@
-<app-page-header>
-    <h1>Customers</h1>
+<header class="bg-light pt-4 pb-md-5 px-4 px-lg-5 d-flex d-md-block align-items-center title">
+    <div class="d-flex">
+        <h1 class="mb-4 mr-auto mr-md-none">Customers</h1>
+        <div class="ml-auto">
+            <button class="btn btn-success" [routerLink]="['/customer', 0, 'edit']"><i class="fa fa-plus"></i>Add Customer</button>
+        </div>
+    </div>
+    
     <ul class="nav-tabs px-4 px-lg-5 content-tabset justify-content-md-start justify-content-end nav" 
         role="tablist"
         slot="submenu"> 
         <li class="nav-item">
-            <a [routerLink]="['/customers']" routerLinkActive="active" class="nav-link"> Customers ({{customerCount$ | async}}) </a>
-        </li>
-        <li class="nav-item">
-            <a [routerLink]="['/products', 'list', 'recently-viewed']" routerLinkActive="active" class="nav-link"> Recently Viewed ({{recentlyViewedCustomersCount$ | async}}) </a>
+            <a [routerLink]="['/customers', 'list', 'all']" routerLinkActive="active" class="nav-link"> Customers ({{customerCount$ | async}}) </a>
         </li>
     </ul>
-</app-page-header>
+</header>
 
 
 <div class="container-fluid pt-3 pb-5 px-2 px-md-4 px-lg-2">

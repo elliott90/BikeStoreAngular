@@ -8,7 +8,6 @@ import { MomentModule } from 'ngx-moment';
 import { NgxCurrencyModule, CurrencyMaskInputMode } from 'ngx-currency';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
-import { PaginationComponent } from './pagination/pagination.component';
 import { ProductListComponent } from './products/product-list.component';
 
 import { CalculateDiscountedCostPipe } from './pipes/calculate-discounted-cost.pipe';
@@ -19,6 +18,11 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrdersListComponent } from './orders-list/orders-list.component';
 import { UserRoleDirective } from './directives/user-role.directive';
 import { CustomerDropdownComponent } from './customer-dropdown/customer-dropdown.component';
+import { CustomerListComponent } from './customer-list/customer-list.component';
+import { DisabledControlDirective } from './directives/disabled-control.directive';
+import { FilterCollapseComponent } from './components/filter-collapse/filter-collapse.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { DebugFormComponent } from './components/debug-form/debug-form.component';
 
 export const customCurrencyMaskConfig = {
   align: 'left',
@@ -48,7 +52,6 @@ export const customCurrencyMaskConfig = {
   ],
   declarations: [
     PaginationComponent,
-    PaginationComponent,
     ProductListComponent,
     CalculateDiscountedCostPipe,
     PageHeaderComponent,
@@ -58,6 +61,10 @@ export const customCurrencyMaskConfig = {
     OrdersListComponent,
     UserRoleDirective,
     CustomerDropdownComponent,
+    CustomerListComponent,
+    DisabledControlDirective,
+    FilterCollapseComponent,
+    DebugFormComponent,
   ],
   exports: [
     CommonModule,
@@ -76,6 +83,10 @@ export const customCurrencyMaskConfig = {
     SweetAlert2Module,
     OrdersListComponent,
     UserRoleDirective,
+    CustomerListComponent,
+    DisabledControlDirective,
+    FilterCollapseComponent,
+    DebugFormComponent,
   ],
 })
 export class SharedModule {}

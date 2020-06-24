@@ -1,16 +1,19 @@
 <div *ngIf="stores$ | async as stores">
-  <div class="card bg-light mb-3">
-    <div class="card-header">
-      Filter
-    </div>
-    <div class="card-body">
+  <app-filter-collapse filterBtnText="Filter Stores">
+    <div class="card mb-3">
+      <div class="card-header">
+        Filter
+      </div>
+      <div class="card-body">
         <div class="form-group">
-            <label for="search">Search</label>
-            <input type="text" class="form-control" [(ngModel)]="storeFilter.search">
+          <label for="search">Search</label>
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="storeFilter.search" />
         </div>
-        <button (click)="loadStores()" class="btn btn-primary">Search</button>
+        <button (click)="loadStores()" class="btn btn-sm btn-primary">Search</button>
+      </div>
     </div>
-  </div>
+  </app-filter-collapse>
+
   <div class="card">
     <div class="card-body">
       <app-pagination
@@ -19,8 +22,8 @@
         (pageChanged)="pageChanged($event)"
         (pageSizeChanged)="pageSizeChanged($event)"
       >
-        <table class="table">
-          <thead>
+        <table class="table table-sm">
+          <thead class="thead-dark">
             <tr>
               <th>Store Id</th>
               <th>Store Name</th>
