@@ -24,6 +24,8 @@ import { FilterCollapseComponent } from './components/filter-collapse/filter-col
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { DebugFormComponent } from './components/debug-form/debug-form.component';
 import { FormButtonsComponent } from './components/form-buttons/form-buttons.component';
+import { CustomerSearchComponent } from './components/customer-search/customer-search.component';
+import { SearchListBaseComponent } from './components/search-list-base/search-list-base.component';
 
 export const customCurrencyMaskConfig = {
   align: 'left',
@@ -67,6 +69,8 @@ export const customCurrencyMaskConfig = {
     FilterCollapseComponent,
     DebugFormComponent,
     FormButtonsComponent,
+    CustomerSearchComponent,
+    SearchListBaseComponent,
   ],
   exports: [
     CommonModule,
@@ -90,6 +94,7 @@ export const customCurrencyMaskConfig = {
     FilterCollapseComponent,
     DebugFormComponent,
     FormButtonsComponent,
+    CustomerSearchComponent,
   ],
 })
 export class SharedModule {}

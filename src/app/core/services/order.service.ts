@@ -7,6 +7,7 @@ import { IPagedResults } from 'src/app/shared/interfaces/IPagedResults';
 import { IOrder } from 'src/app/shared/interfaces/IOrder';
 import { environment } from 'src/environments/environment';
 import { OrderFilter } from '../filter-models/order-filter';
+import { IOrderCreation } from 'src/app/shared/interfaces/IOrderCreation';
 
 @Injectable({
   providedIn: 'root',
@@ -60,5 +61,9 @@ export class OrderService {
 
   getTotalOrderCount(): Observable<number> {
     return this.http.get<number>(`${this.ordersUrl}/OrderCount`);
+  }
+
+  createOrder(order: IOrderCreation): Observable<IOrder> {
+    return this.http.post<IOrder>(`${this.ordersUrl}`, order);
   }
 }

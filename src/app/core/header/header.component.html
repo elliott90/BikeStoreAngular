@@ -7,16 +7,21 @@
 
   <div class="ml-auto">
     <div class="d-flex">
-      >
-      <app-product-search *ngIf="isLoggedIn"></app-product-search>
-
-      <app-recent-customers *ngIf="isLoggedIn"></app-recent-customers>
+      <div class="mr-2" *ngIf="isLoggedIn">
+        <app-product-search></app-product-search>
+      </div>
+      <div class="mr-2" *ngIf="isLoggedIn">
+        <app-customer-search (resultClickChanged)="handleCustomerSelect($event)"></app-customer-search>
+      </div>
+      <div class="mr-2" *ngIf="isLoggedIn">
+        <app-recent-customers></app-recent-customers>
+      </div>
 
       <!-- If not logged in -->
       <button class="btn btn-info" (click)="login()" *ngIf="!isLoggedIn">Login</button>
 
       <!-- If logged in -->
-      <div *ngIf="isLoggedIn" class="btn-group mr-3">
+      <div *ngIf="isLoggedIn" class="btn-group">
         <button type="button" class="btn btn-primary"><i class="fa fa-user"></i>{{ userName }}</button>
         <div class="btn-group" ngbDropdown role="group">
           <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>

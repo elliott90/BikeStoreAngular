@@ -3,7 +3,7 @@ export interface ProductFilter {
   pageSize: number;
   search: string;
   productId: number;
-  productIds: number[];
+  productIds?: number[];
   minCost: number;
   maxCost: number;
   categoryId?: number;

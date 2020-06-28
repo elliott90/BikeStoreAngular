@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { SettingsService } from '../services/settings.service';
+import { ICustomer } from 'src/app/shared/interfaces/ICustomer';
+import { CustomerService } from '../services/customer.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +14,7 @@ export class HeaderComponent implements OnInit {
   userName = '';
   isDebug = false;
 
-  constructor(private authService: AuthService, private settingService: SettingsService) {}
+  constructor(private authService: AuthService, private settingService: SettingsService, private router: Router) {}
 
   ngOnInit(): void {
     this.authService.loginChanged.subscribe((loggedIn) => {
@@ -43,5 +46,9 @@ export class HeaderComponent implements OnInit {
 
   toggleDebugging(): void {
     this.settingService.changeDebugValue(!this.isDebug);
+  }
+
+  handleCustomerSelect(customer: ICustomer): void {
+    this.router.navigate(['customer', customer.customerId, 'edit']);
   }
 }

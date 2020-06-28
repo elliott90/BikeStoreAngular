@@ -5,6 +5,10 @@ import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { CreateOrderComponent } from './create-order/create-order.component';
 import { SharedModule } from '../../shared/shared.module';
 import { CreateOrderGuard } from './create-order.guard';
+import { ProductsComponent } from './products/products.component';
+import { ProductComponent } from './product/product.component';
+import { CustomerFormComponent } from './customer-form/customer-form.component';
+import { OrderSummaryComponent } from './order-summary/order-summary.component';
 
 const routes: Routes = [
   {
@@ -29,6 +33,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes), SharedModule, NgbModule],
-  declarations: [CreateOrderComponent],
+  declarations: [CreateOrderComponent, ProductsComponent, ProductComponent, CustomerFormComponent, OrderSummaryComponent],
 })
 export class CreateOrderModule {}

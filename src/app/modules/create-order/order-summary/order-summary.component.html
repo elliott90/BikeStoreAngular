@@ -1,0 +1,20 @@
+<div class="card">
+  <div class="card-header">
+    Order Summary
+  </div>
+  <div class="card-body font-weight-bold">
+    <div class="d-flex justify-content-between">
+      <div>Subtotal</div>
+      <div>{{ subtotal | currency: 'GBP' }}</div>
+    </div>
+    <div class="d-flex justify-content-between">
+      <div>Discount</div>
+      <div>{{ totalOrderDiscount | currency: 'GBP' }}</div>
+    </div>
+    <hr />
+    <div class="d-flex justify-content-between">
+      <div>Total</div>
+      <div>{{ totalOrderCost | currency: 'GBP' }}</div>
+    </div>
+  </div>
+</div>

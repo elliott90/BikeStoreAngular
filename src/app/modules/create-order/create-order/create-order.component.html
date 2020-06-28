@@ -14,267 +14,45 @@
 </header>
 
 <div class="container-fluid pt-3 pb-5 px-2 px-md-4 px-lg-2">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="alert alert-danger">
-        Feel free to play around but submitting this form will not do anything yet.
-      </div>
-      <form class="card" [formGroup]="orderForm" (ngSubmit)="save()">
-        <div class="card-header">
-          Create a new order
-        </div>
-        <div class="card-body">
-          <div *ngIf="!hasCustomerOnLoad">
-            <div class="form-group">
-              <label>Existing Customer?</label>
-              <br />
-              <div
-                class="btn-group btn-group-toggle"
-                ngbRadioGroup
-                name="radioBasic"
-                formControlName="isExistingCustomer"
-              >
-                <label ngbButtonLabel class="btn-primary"> <input ngbButton type="radio" [value]="false" /> No </label>
-                <label ngbButtonLabel class="btn-primary"> <input ngbButton type="radio" [value]="true" /> Yes </label>
-              </div>
-            </div>
-
-            <div class="form-group" *ngIf="orderForm.get('isExistingCustomer').value">
-              <label for="existingCustomerSearchID">Customer Search</label>
-              <input
-                class="form-control"
-                type="text"
-                id="existingCustomerSearchID"
-                placeholder="Customer Name"
-                formControlName="existingCustomerSearch"
-                [ngbTypeahead]="customerSearch"
-                [resultFormatter]="customerFormatter"
-                [inputFormatter]="customerInputFormatter"
-                (selectItem)="selectCustomer($event)"
-              />
-            </div>
-
-            <hr />
-          </div>
-
-          <div formGroupName="customer">
-            <h5 class="card-title">Customer Details</h5>
-
-            <div class="form-row">
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label for="firstNameId">First Name</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="firstNameId"
-                    placeholder="First Name"
-                    formControlName="firstName"
-                  />
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label for="lastNameId">Last Name</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="lastNameId"
-                    placeholder="Last Name"
-                    formControlName="lastName"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label for="emailId">Email</label>
-                  <input class="form-control" type="email" id="emailId" placeholder="Email" formControlName="email" />
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label for="phoneId">Phone</label>
-                  <input class="form-control" type="text" id="phoneId" placeholder="Phone" formControlName="phone" />
-                </div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label for="CityId">City</label>
-                  <input class="form-control" type="text" id="CityId" placeholder="City" formControlName="city" />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label for="StateId">State</label>
-                  <input class="form-control" type="text" id="StateId" placeholder="State" formControlName="state" />
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label for="zipCodeId">Zip Code</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="zipCodeId"
-                    placeholder="Zip Code"
-                    formControlName="zipCode"
-                  />
-
-                  <span class="text-danger" *ngIf="orderForm.get('customer.zipCode').errors?.zipCode">
-                    Must be a valid zip code (00000 or 000000000 or 00000-0000)
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="notificationType">Send Notifications</label>
-              <div class="row">
-                <div class="col">
-                  <div
-                    class="btn-group btn-group-toggle"
-                    ngbRadioGroup
-                    name="radioBasic"
-                    formControlName="notification"
-                  >
-                    <label ngbButtonLabel class="btn-primary">
-                      <input ngbButton type="radio" value="email" /> Email
-                    </label>
-                    <label ngbButtonLabel class="btn-primary">
-                      <input ngbButton type="radio" value="text" /> Text
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <h5 class="card-title">Products</h5>
-
-          <div class="form-row">
-            <div class="col-lg-5">
-              <div class="form-group">
-                <input
-                  class="form-control"
-                  type="text"
-                  id="productSearch"
-                  placeholder="Search product Name or product id"
-                  formControlName="productSearch"
-                  [ngbTypeahead]="productSearch"
-                  [resultFormatter]="productFormatter"
-                  [inputFormatter]="productInputFormatter"
-                  (selectItem)="selectProduct($event)"
-                />
-                <span class="text-danger" *ngIf="orderForm.get('products').errors?.required"
-                  >Please select at least 1 product</span
-                >
-              </div>
-            </div>
-          </div>
-
-          <div class="card bg-light mb-3" *ngIf="productsForm.length">
-            <div class="card-body">
-              <div formArrayName="products" *ngFor="let product of productsForm.controls; let i = index">
-                <div [formGroupName]="i">
-                  <!-- {{product.value | json}} -->
-
-                  <div class="form-row mb-3">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label attr.for="{{ 'product' + i + 'NameId' }}" class="small">Product Name</label>
-                        <input
-                          id="{{ 'product' + i + 'NameId' }}"
-                          type="text"
-                          class="form-control form-control-sm"
-                          formControlName="productName"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-lg-3">
-                      <div class="form-group">
-                        <label attr.for="{{ 'product' + i + 'ListPriceId' }}" class="small">List Price</label>
-                        <input
-                          id="{{ 'product' + i + 'ListPriceId' }}"
-                          type="text"
-                          class="form-control form-control-sm"
-                          currencyMask
-                          formControlName="listPrice"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-lg-3">
-                      <div class="form-group">
-                        <label attr.for="{{ 'product' + i + 'DiscountId' }}" class="small">Discount</label>
-                        <input
-                          id="{{ 'product' + i + 'DiscountId' }}"
-                          type="number"
-                          class="form-control form-control-sm"
-                          formControlName="discount"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-lg-3">
-                      <div class="form-group">
-                        <label attr.for="{{ 'product' + i + 'QuantityId' }}" class="small">Quantity</label>
-                        <input
-                          id="{{ 'product' + i + 'QuantityId' }}"
-                          type="number"
-                          class="form-control form-control-sm"
-                          formControlName="quantity"
-                        />
-
-                        <small
-                          class="text-danger"
-                          *ngIf="product.get('quantity').errors?.max || product.get('quantity').errors?.min"
-                        >
-                          Quantity must be between 1 & 5.
-                        </small>
-                      </div>
-                    </div>
-                    <div class="col-lg-3">
-                      <div class="form-group">
-                        <label attr.for="{{ 'product' + i + 'PriceId' }}" class="small">Total</label>
-                        <input
-                          id="{{ 'product' + i + 'PriceId' }}"
-                          type="text"
-                          class="form-control form-control-sm"
-                          currencyMask
-                          formControlName="price"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <button class="btn btn-sm btn-outline-danger" (click)="removeProduct(i)">Remove</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">Total Discount: {{ totalOrderDiscount | currency: 'GBP' }}</small
-              ><br />
-              <small class="text-muted">Total Cost: {{ totalOrderCost | currency: 'GBP' }}</small>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer">
-          <div class="d-flex">
-            <div>
-              <button class="btn btn-primary" [disabled]="!orderForm.valid">Save</button>
-            </div>
-
-            <div class="ml-auto"></div>
-          </div>
-        </div>
-      </form>
-    </div>
+  <div class="alert alert-danger my-4">
+    Feel free to play around but submitting this form will not do anything yet.
   </div>
+
+  <form [formGroup]="orderForm" (ngSubmit)="save()">
+    <app-form-buttons>
+      <div card-buttons>
+        <button class="btn btn-info" type="button" (click)="resetForm()">Reset</button>
+        <button class="btn btn-info" type="button" (click)="loadExample()">Load Example Order</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!orderForm.valid">Save</button>
+      </div>
+    </app-form-buttons>
+    <div class="row">
+      <div class="col-lg-8 mb-3">
+        <div class="card">
+          <div class="card-header">
+            Create a new order
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-12 col-xl-6">
+                <app-customer-form
+                  [customerForm]="customerForm"
+                  [hasCustomerOnLoad]="hasCustomerOnLoad"
+                  (customerChanged)="patchCustomer($event)"
+                ></app-customer-form>
+              </div>
+              <div class="col-lg-12 col-xl-6">
+                <app-products [fg]="orderForm" (productAdded)="addProduct($event)"></app-products>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <app-order-summary [products]="productsForm"></app-order-summary>
+      </div>
+    </div>
+  </form>
 </div>
 
 <app-debug-form [form]="orderForm"></app-debug-form>

@@ -71,8 +71,27 @@ export class CustomerService {
     return this.http.post<ICustomer>(`${this.customersUrl}`, customer);
   }
 
-  searchCustomers(search: string): Observable<ICustomer[]> {
-    return this.http.get<ICustomer[]>(`${this.customersUrl}/Search/${search}`);
+  searchCustomers(filters: CustomerFilter): Observable<IPagedResults<ICustomer[]>> {
+    const params = new HttpParams()
+      .set('page', filters.page.toString())
+      .set('pageSize', filters.pageSize.toString())
+      .set('search', filters.search);
+
+    return this.http
+      .get<ICustomer[]>(`${this.customersUrl}/search`, { observe: 'response', params })
+      .pipe(
+        map((res) => {
+          const pagination = JSON.parse(res.headers.get('X-Pagination')) as IPagedResponse;
+          const customers = res.body as ICustomer[];
+
+          return {
+            results: customers,
+            totalRecords: pagination.totalRecords,
+            pageNumber: pagination.pageNumber,
+            pageSize: pagination.pageSize,
+          };
+        })
+      );
   }
 
   getRecentlyLookedAtCustomersCount(): Observable<number> {

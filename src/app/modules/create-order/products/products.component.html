@@ -1,0 +1,33 @@
+<h5 class="card-title">
+  Products <span class="small" *ngIf="productsFormArray.length > 0">{{ productsFormArray.length }} items</span>
+</h5>
+
+<div class="form-group">
+  <input
+    class="form-control"
+    type="text"
+    id="productSearch"
+    placeholder="Search product Name or product id"
+    [(ngModel)]="productSearchText"
+    [ngbTypeahead]="productSearch"
+    [resultFormatter]="productFormatter"
+    [inputFormatter]="productInputFormatter"
+    (selectItem)="selectProduct($event)"
+  />
+  <span class="text-danger" *ngIf="productsFormArray.errors?.required">Please select at least 1 product</span>
+</div>
+
+<div class="mb-3" *ngIf="productsFormArray.controls.length > 0">
+  <div [formGroup]="fg">
+    <div formArrayName="products" *ngFor="let product of productsFormArray.controls; let i = index">
+      <div [formGroupName]="i">
+        <app-product
+          [form]="fg"
+          [product]="product"
+          [productIndex]="i"
+          (removeProduct)="removeProduct($event)"
+        ></app-product>
+      </div>
+    </div>
+  </div>
+</div>

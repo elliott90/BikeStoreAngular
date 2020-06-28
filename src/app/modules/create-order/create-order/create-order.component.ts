@@ -11,18 +11,23 @@ import { GrowlerService, GrowlerMessageType } from 'src/app/core/growler/growler
 import { ZipCodeValidators } from 'src/app/shared/custom-validators/zip-code.validator';
 import { ActivatedRoute } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
+import { ProductFilter } from 'src/app/core/filter-models/product-filter';
+import { IPagedResponse } from 'src/app/shared/interfaces/IPagedResponse';
+import { IPagedResults } from 'src/app/shared/interfaces/IPagedResults';
+import { IOrderCreation } from 'src/app/shared/interfaces/IOrderCreation';
+import { OrderService } from 'src/app/core/services/order.service';
+import { IOrder } from 'src/app/shared/interfaces/IOrder';
+import { OrderCreation } from 'src/app/shared/model/order-creation.model';
 
 @Component({
   selector: 'app-create-order',
   templateUrl: './create-order.component.html',
   styleUrls: ['./create-order.component.scss'],
-  providers: [CurrencyPipe]
+  providers: [CurrencyPipe],
 })
 export class CreateOrderComponent implements OnInit {
   hasCustomerOnLoad = false;
   orderForm: FormGroup;
-  totalOrderCost = 0;
-  totalOrderDiscount = 0;
 
   get productsForm(): FormArray {
     return <FormArray>this.orderForm.get('products');
@@ -35,6 +40,7 @@ export class CreateOrderComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
+    private orderService: OrderService,
     private customerService: CustomerService,
     private productService: ProductService,
     private growlerService: GrowlerService,
@@ -46,15 +52,12 @@ export class CreateOrderComponent implements OnInit {
     this.route.paramMap.subscribe((param) => {
       const customerId = +param.get('customerId');
       if (customerId) {
-        this.hasCustomerOnLoad = true;
         this.getCustomerAndPatchCustomer(+param.get('customerId'));
       }
     });
 
     this.orderForm = this.fb.group({
-      isExistingCustomer: [false],
       existingCustomerSearch: '',
-      productSearch: '',
       customer: this.fb.group({
         customerId: [0],
         firstName: ['', [Validators.required, Validators.minLength(2)]],
@@ -69,85 +72,51 @@ export class CreateOrderComponent implements OnInit {
         notification: 'email',
       }),
       products: this.fb.array([], Validators.required),
-    });
-
-    this.orderForm.get('customer.notification').valueChanges.subscribe((value) => this.setNotification(value));
-
-    this.productsForm.valueChanges.subscribe((value: FormControl[]) => {
-      this.recalculateProductPrice(value);
+      storeId: [1],
+      staffId: [1],
     });
   }
 
+  // Patch the customer form if the query param has customer id
   getCustomerAndPatchCustomer(customerId: number): void {
     this.customerService.getCustomer(customerId).subscribe((customer: ICustomer) => {
-      this.patchCustomer(customer);
-      this.customerForm.markAllAsTouched();
+      if (customer) {
+        this.hasCustomerOnLoad = true;
+        this.patchCustomer(customer);
+        this.customerForm.markAllAsTouched();
+      }
     });
   }
 
-  // https://stackblitz.com/edit/angular-reactive-form-sobsoft?file=app%2Fapp.component.ts
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  recalculateProductPrice(products: any): void {
-    const control = <FormArray>this.orderForm.controls.products;
-
-    this.totalOrderCost = 0;
-    this.totalOrderDiscount = 0;
-
-    // eslint-disable-next-line guard-for-in
-    for (const product in products) {
-      const discountPercent = products[product].discount / 100;
-      const discountValue = products[product].quantity * (products[product].listPrice * discountPercent);
-      const totalProductPrice = products[product].quantity * products[product].listPrice - discountValue;
-
-      control
-        .at(+product)
-        .get('price')
-        .setValue(totalProductPrice, { onlySelf: true, emitEvent: false });
-
-      this.totalOrderDiscount += discountValue;
-      this.totalOrderCost += totalProductPrice;
-    }
+  resetForm(): void {
+    this.orderForm.reset();
+    this.productsForm.clear();
   }
 
+  // Save the form
   save(): void {
-    console.log(this.orderForm);
-    this.growlerService.growl('Saved Order', GrowlerMessageType.Success);
-  }
-
-  setNotification(notifyVia: string): void {
-    const phoneControl = this.orderForm.get('customer.phone');
-    if (notifyVia === 'text') {
-      phoneControl.setValidators(Validators.required);
-    } else {
-      phoneControl.clearValidators();
-    }
-    phoneControl.updateValueAndValidity();
-  }
-
-  // https://weblog.west-wind.com/posts/2019/Apr/08/Using-the-ngBootStrap-TypeAhead-Control-with-Dynamic-Data
-  customerSearch = (text$: Observable<string>): Observable<ICustomer[]> =>
-    text$.pipe(
-      debounceTime(1000),
-      distinctUntilChanged(),
-      // tap(() => this.searching = true),
-      switchMap((term) => this.customerService.searchCustomers(term))
-      // tap(() => this.searching = false)
+    this.orderService.createOrder(this.prepareOrder()).subscribe(
+      (order: IOrder) => {
+        console.log(order);
+      },
+      () => {
+        this.growlerService.dangerGrowl('There was a problem saving your order.');
+      }
     );
+    // console.log(this.orderForm);
+    // this.growlerService.growl('Saved Order', GrowlerMessageType.Success);
+  }
 
-  customerFormatter = (customer: ICustomer): string => (customer ? `${customer.firstName} ${customer.lastName}` : '');
-
-  customerInputFormatter = (customer: ICustomer | null): string =>
-    customer ? `${customer.firstName} ${customer.lastName}` : '';
-
-  selectCustomer(event: NgbTypeaheadSelectItemEvent): void {
-    const customer = event.item as ICustomer;
-    this.patchCustomer(customer);
+  private prepareOrder(): IOrderCreation {
+    let order = new OrderCreation();
+    order = { order, ...this.orderForm.value };
+    return order;
   }
 
   patchCustomer(customer: ICustomer): void {
     this.orderForm.get('customer').patchValue({
       existingCustomerSearch: '',
-      customerId: { value: customer.customerId, disabled: true },
+      customerId: customer.customerId,
       firstName: customer.firstName,
       lastName: customer.lastName,
       email: customer.email,
@@ -159,40 +128,39 @@ export class CreateOrderComponent implements OnInit {
     });
   }
 
-  productSearch = ($text$: Observable<string>): Observable<IProduct[]> =>
-    $text$.pipe(
-      debounceTime(1000),
-      distinctUntilChanged(),
-      // tap(() => this.searching = true),
-      switchMap((term) => this.productService.getProductsBySearchString(term))
-      // tap(() => this.searching = false)
-    );
+  loadExample(): void {
+    this.customerService.getCustomer(1).subscribe((customer: ICustomer) => {
+      this.patchCustomer(customer);
+    });
 
-  productFormatter = (product: IProduct): string => `${product.productName} (${this.currencyPipe.transform(product.listPrice, '£')})`;
+    this.productsForm.clear();
 
-  productInputFormatter = (product: IProduct): string => (product ? `${product.productName}` : '');
+    const filter: ProductFilter = {
+      search: '',
+      page: 1,
+      pageSize: 3,
+      minCost: 0,
+      maxCost: 9999,
+      productId: 0,
+    };
 
-  selectProduct(event: NgbTypeaheadSelectItemEvent): void {
-    const product = event.item as IProduct;
+    this.productService.getProducts(filter).subscribe((products: IPagedResults<IProduct[]>) => {
+      products.results.forEach((product) => {
+        this.addProduct(product);
+      });
+    });
+  }
 
+  addProduct(product: IProduct): void {
     this.productsForm.push(
       this.fb.group({
+        productId: [product.productId],
         productName: [{ value: product.productName, disabled: true }],
         listPrice: [product.listPrice],
-        discount: [0],
+        discount: [0, [Validators.min(0), Validators.max(40)]],
         price: [{ value: product.listPrice, disabled: true }],
         quantity: [1, [Validators.min(1), Validators.max(5)]],
       })
     );
-
-    setTimeout(() => {
-      this.orderForm.patchValue({
-        productSearch: '',
-      });
-    }, 200);
-  }
-
-  removeProduct(index: number): void {
-    this.productsForm.removeAt(index);
   }
 }

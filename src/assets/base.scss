@@ -19,6 +19,12 @@ body {
   @extend .ml-2;
 }
 
+.btn-group {
+  .btn + .btn {
+    margin-left: 0 !important;
+  }
+}
+
 .stat-box {
   margin-bottom: 25px;
   margin-top: 0;
@@ -75,6 +81,10 @@ body {
 
 .btn > .fa {
   margin-right: 10px;
+}
+
+.btn-icon > .fa {
+  margin-right: 0;
 }
 
 .input-loader {

@@ -1,0 +1,78 @@
+<!-- Customer Search - Only show if the customer isn't added from query string -->
+<div *ngIf="!hasCustomerOnLoad">
+  <h5 class="card-title">Find Customer</h5>
+  <app-customer-search (resultClickChanged)="setCustomer($event)"></app-customer-search>
+  <hr />
+</div>
+<!-- End Customer Search -->
+
+<div [formGroup]="customerForm">
+  <h5 class="card-title">Customer Details</h5>
+
+  <div class="form-row">
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="firstNameId">First Name</label>
+        <input class="form-control" type="text" id="firstNameId" placeholder="First Name" formControlName="firstName" />
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="lastNameId">Last Name</label>
+        <input class="form-control" type="text" id="lastNameId" placeholder="Last Name" formControlName="lastName" />
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="emailId">Email</label>
+        <input class="form-control" type="email" id="emailId" placeholder="Email" formControlName="email" />
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label for="phoneId">Phone</label>
+        <input class="form-control" type="text" id="phoneId" placeholder="Phone" formControlName="phone" />
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-lg-4">
+      <div class="form-group">
+        <label for="CityId">City</label>
+        <input class="form-control" type="text" id="CityId" placeholder="City" formControlName="city" />
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="form-group">
+        <label for="StateId">State</label>
+        <input class="form-control" type="text" id="StateId" placeholder="State" formControlName="state" />
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="form-group">
+        <label for="zipCodeId">Zip Code</label>
+        <input class="form-control" type="text" id="zipCodeId" placeholder="Zip Code" formControlName="zipCode" />
+
+        <span class="text-danger" *ngIf="customerForm.get('zipCode').errors?.zipCode">
+          Must be a valid zip code (00000 or 000000000 or 00000-0000)
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="notificationType">Send Notifications Via</label>
+    <div class="row">
+      <div class="col">
+        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" formControlName="notification">
+          <label ngbButtonLabel class="btn-primary"> <input ngbButton type="radio" value="email" /> Email </label>
+          <label ngbButtonLabel class="btn-primary"> <input ngbButton type="radio" value="text" /> Text </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

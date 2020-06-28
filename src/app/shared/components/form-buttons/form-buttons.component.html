@@ -1,12 +1,11 @@
-<div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-          <div class="d-flex justify-content-center">
-              <div class="ml-auto">
-                  <ng-content select="[card-buttons]"></ng-content>
-              </div>
-          </div>
+<div class="w-100 d-block">
+  <div class="card" [class.card--alt]="altBackground">
+    <div class="card-body">
+      <div class="d-flex justify-content-center align-items-center">
+        <ng-content select="[card-text]"></ng-content>
+        <div class="ml-auto">
+          <ng-content select="[card-buttons]"></ng-content>
+        </div>
       </div>
     </div>
   </div>

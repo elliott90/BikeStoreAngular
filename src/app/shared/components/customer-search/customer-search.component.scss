@@ -1,0 +1,10 @@
+.search__item {
+  background: #efefef;
+  padding: 3px 7px;
+  margin: 2px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background: darken(#efefef, 10);
+  }
+}
