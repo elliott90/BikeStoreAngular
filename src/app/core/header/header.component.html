@@ -1,19 +1,21 @@
-<header class="navbar navbar-expand navbar-dark bg-dark px-4 flex-column flex-md-row">
+<header class="navbar navbar-expand navbar-dark bg-dark px-4 flex-row">
   <!-- <ul class="navbar-nav flex-row">
     <li class="nav-item"><a class="nav-link" href="''">Menu Item</a></li>
     <li class="nav-item"><a class="nav-link" href="''">Menu Item</a></li>
     <li class="nav-item"><a class="nav-link" href="''">Menu Item</a></li>
   </ul> -->
 
+  <button class="btn btn-primary d-lg-none" (click)="toggleSidebar()">Menu</button>
+
   <div class="ml-auto">
     <div class="d-flex">
-      <div class="mr-2" *ngIf="isLoggedIn">
-        <app-product-search></app-product-search>
+      <div class="mr-2 d-none d-lg-block" *ngIf="isLoggedIn">
+        <app-product-search (resultClickChanged)="handleProductSelect($event)"></app-product-search>
       </div>
-      <div class="mr-2" *ngIf="isLoggedIn">
+      <div class="mr-2 d-none d-lg-block" *ngIf="isLoggedIn">
         <app-customer-search (resultClickChanged)="handleCustomerSelect($event)"></app-customer-search>
       </div>
-      <div class="mr-2" *ngIf="isLoggedIn">
+      <div class="mr-2 d-none d-lg-block" *ngIf="isLoggedIn">
         <app-recent-customers></app-recent-customers>
       </div>
 
@@ -27,9 +29,10 @@
           <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
           <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
             <button ngbDropdownItem (click)="logout()">Logout</button>
-            <!-- <button ngbDropdownItem (click)="toggleDebugging()">
-              Debug <span *ngIf="isDebug" class="badge badge-success">On</span> <span *ngIf="!isDebug" class="badge badge-danger">Off</span>
-            </button> -->
+            <button ngbDropdownItem (click)="toggleDebugging()" title="Debug form information">
+              Debug <span *ngIf="isDebugging" class="badge badge-success">On</span>
+              <span *ngIf="!isDebugging" class="badge badge-danger">Off</span>
+            </button>
           </div>
         </div>
       </div>

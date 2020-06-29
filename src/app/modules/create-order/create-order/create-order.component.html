@@ -1,8 +1,10 @@
-<header class="bg-light pt-4 pb-md-5 px-4 px-lg-5 d-flex d-md-block align-items-center title">
+<header class="bg-light pt-4 pb-4 pb-md-5 px-4 px-lg-5 d-md-block align-items-center title">
   <div class="d-flex">
     <h1 class="mb-4 mr-auto mr-md-none">Create Order</h1>
     <div class="ml-auto">
-      <!-- <button class="btn btn-outline-secondary" [routerLink]="['/categories', 'list', 'all']" title="View all products">View All</button> -->
+      <button class="btn btn-outline-secondary" [routerLink]="['/orders', 'list', 'all']" title="View all orders">
+        <i class="fa fa-list"></i>View Orders
+      </button>
     </div>
   </div>
 
@@ -14,10 +16,6 @@
 </header>
 
 <div class="container-fluid pt-3 pb-5 px-2 px-md-4 px-lg-2">
-  <div class="alert alert-danger my-4">
-    Feel free to play around but submitting this form will not do anything yet.
-  </div>
-
   <form [formGroup]="orderForm" (ngSubmit)="save()">
     <app-form-buttons>
       <div card-buttons>

@@ -1,0 +1,17 @@
+<app-search-list-base
+  (searchTextEvent)="gotSearchFromChild($event)"
+  (pageChanged)="gotPageFromChild($event)"
+  [pageSize]="filter.pageSize"
+  [totalItems]="totalRecords"
+  inputPlaceholderText="Search Products"
+>
+  <div
+    *ngFor="let product of products?.results"
+    class="search__item"
+    (click)="selectProduct(product)"
+    [title]="'Select ' + product.productName"
+  >
+    {{ product.productName }} {{ product.modelYear }}<br />
+    <small>{{ product.listPrice | currency: 'GBP' }}</small>
+  </div></app-search-list-base
+>

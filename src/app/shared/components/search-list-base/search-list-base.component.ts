@@ -1,6 +1,15 @@
-import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  ChangeDetectionStrategy,
+  ViewChild,
+  ElementRef,
+  HostListener,
+} from '@angular/core';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-list-base',
@@ -19,6 +28,12 @@ export class SearchListBaseComponent implements OnInit {
 
   searchTextChanged = new Subject<string>();
   customerSearchText: string;
+
+  private clickedInside = false;
+
+  @Input() loading = false;
+
+  @Input() inputPlaceholderText = 'Search';
 
   @Input() get pageSize(): number {
     return this.pagerPageSize;
@@ -43,10 +58,25 @@ export class SearchListBaseComponent implements OnInit {
 
   @ViewChild('searchBox') searchBox: ElementRef;
 
-  constructor() {}
+  constructor(private eRef: ElementRef) {}
+
+  // Check to see if the user clicks outside of the component
+  @HostListener('click')
+  clickInside(): void {
+    this.clickedInside = true;
+  }
+
+  @HostListener('document:click')
+  clickout(): void {
+    if (!this.clickedInside) {
+      // Reset the search if the user clicks away
+      this.search('');
+    }
+    this.clickedInside = false;
+  }
 
   ngOnInit(): void {
-    this.searchTextChanged.pipe(debounceTime(300), distinctUntilChanged()).subscribe((searchText) => {
+    this.searchTextChanged.subscribe((searchText) => {
       this.searchTextEvent.emit(searchText);
     });
   }
@@ -77,5 +107,6 @@ export class SearchListBaseComponent implements OnInit {
 
   search(searchText: string): void {
     this.searchTextChanged.next(searchText);
+    this.currentPage = 1;
   }
 }

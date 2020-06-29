@@ -8,7 +8,12 @@
             <form class="form" #form="ngForm" (ngSubmit)="searchBrands()">
               <div class="form-group">
                 <label for="search">Search</label>
-                <input type="text" class="form-control form-control-sm" name="search" [(ngModel)]="brandFilter.search" />
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  name="search"
+                  [(ngModel)]="brandFilter.search"
+                />
               </div>
               <button class="btn btn-primary">Search</button>
             </form>
@@ -24,25 +29,27 @@
     (pageChanged)="pageChanged($event)"
     (pageSizeChanged)="pageSizeChanged($event)"
   >
-    <table class="table table-sm table-hover">
-      <thead class="thead-dark">
-        <th>Category Id</th>
-        <th>Category Name</th>
-        <th>Products in brand</th>
-        <th></th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let brand of brands.results">
-          <td>{{ brand.brandId }}</td>
-          <td>{{ brand.brandName }}</td>
-          <td>{{ brand.productsInBrand }}</td>
-          <td class="text-right">
-            <button class="btn btn-sm btn-outline-primary" [routerLink]="['/brand', brand.brandId, 'edit']">
-              Edit
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-sm table-hover">
+        <thead class="thead-dark">
+          <th>Category Id</th>
+          <th>Category Name</th>
+          <th>Products in brand</th>
+          <th></th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let brand of brands.results">
+            <td>{{ brand.brandId }}</td>
+            <td>{{ brand.brandName }}</td>
+            <td>{{ brand.productsInBrand }}</td>
+            <td class="text-right">
+              <button class="btn btn-sm btn-outline-primary" [routerLink]="['/brand', brand.brandId, 'edit']">
+                Edit
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </app-pagination>
 </div>

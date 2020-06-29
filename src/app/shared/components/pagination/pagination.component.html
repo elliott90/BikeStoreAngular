@@ -5,7 +5,7 @@
 <div class="card" *ngIf="totalItems > 0; else elseBlock">
   <div class="card-header">
     <div class="row">
-      <div class="col-md-6 col-lg-9">
+      <div class="col-md-6 col-lg-9 d-none d-md-inline-block">
         <div class="small bg-info text-light p-2 d-inline-block">
           {{ ofRecords }}
         </div>
@@ -38,7 +38,7 @@
 
   <div class="card-footer" [hidden]="!isVisible">
     <div class="row justify-content-center">
-      <div class="col-md-6">
+      <div class="col-md-6 d-none d-md-inline-block">
         <div class="bg-info small text-light p-2 d-inline-block">Page {{ currentPage }} / {{ totalPages }}</div>
         <div class="d-inline-block ml-2">
           <div class="input-group">

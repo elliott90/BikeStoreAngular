@@ -3,18 +3,11 @@
 </h5>
 
 <div class="form-group">
-  <input
-    class="form-control"
-    type="text"
-    id="productSearch"
-    placeholder="Search product Name or product id"
-    [(ngModel)]="productSearchText"
-    [ngbTypeahead]="productSearch"
-    [resultFormatter]="productFormatter"
-    [inputFormatter]="productInputFormatter"
-    (selectItem)="selectProduct($event)"
-  />
-  <span class="text-danger" *ngIf="productsFormArray.errors?.required">Please select at least 1 product</span>
+  <app-product-search (resultClickChanged)="selectProduct($event)"></app-product-search>
+
+  <div class="alert alert-danger my-3" *ngIf="productsFormArray.errors?.required">
+    Please select at least 1 product
+  </div>
 </div>
 
 <div class="mb-3" *ngIf="productsFormArray.controls.length > 0">

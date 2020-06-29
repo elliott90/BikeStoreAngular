@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { CustomerFilter } from 'src/app/core/filter-models/customer-filter';
+import { Subject, Observable } from 'rxjs';
+import { switchMap, map, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { ICustomer } from '../../interfaces/ICustomer';
 import { IPagedResults } from '../../interfaces/IPagedResults';
 import { SearchListBaseComponent } from '../search-list-base/search-list-base.component';
@@ -8,10 +10,13 @@ import { SearchListBaseComponent } from '../search-list-base/search-list-base.co
 @Component({
   selector: 'app-customer-search',
   templateUrl: './customer-search.component.html',
-  styleUrls: ['./customer-search.component.scss']
+  styleUrls: ['./customer-search.component.scss'],
 })
 export class CustomerSearchComponent implements OnInit {
+  private filterChanged = new Subject<CustomerFilter>();
   customers: IPagedResults<ICustomer[]>;
+  customers$: Observable<IPagedResults<ICustomer[]>>;
+  loading = false;
 
   filter: CustomerFilter = {
     search: '',
@@ -30,29 +35,43 @@ export class CustomerSearchComponent implements OnInit {
 
   constructor(private customerService: CustomerService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.filterChanged
+      .pipe(
+        tap(() => {
+          this.loading = true;
+        }),
+        debounceTime(300),
+        switchMap((filter) => this.loadCustomers(filter)),
+        map((data) => {
+          this.customers = data;
+          this.totalPages = Math.ceil(data.totalRecords / data.pageSize);
+          this.totalRecords = data.totalRecords;
+        }),
+        tap(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe();
+  }
+
+  loadCustomers(filter: CustomerFilter): Observable<IPagedResults<ICustomer[]>> {
+    return this.customerService.searchCustomers(filter);
+  }
 
   gotSearchFromChild(search: string): void {
-    // debugger;
     if (search === '') {
       this.resetForm();
     } else {
       this.filter.search = search;
-      this.performSearch();
+      this.filter.page = 1;
+      this.filterChanged.next(this.filter);
     }
   }
 
   gotPageFromChild(page: number): void {
     this.filter.page = page;
-    this.performSearch();
-  }
-
-  performSearch(): void {
-    this.customerService.searchCustomers(this.filter).subscribe((customers: IPagedResults<ICustomer[]>) => {
-      this.customers = customers;
-      this.totalPages = Math.ceil(customers.totalRecords / customers.pageSize);
-      this.totalRecords = customers.totalRecords;
-    });
+    this.filterChanged.next(this.filter);
   }
 
   selectCustomer(customer: ICustomer): void {

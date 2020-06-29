@@ -4,14 +4,7 @@
   margin: 2px 0;
   border-radius: 5px;
   cursor: pointer;
-  overflow: hidden;
   &:hover {
     background: darken(#efefef, 10);
   }
-}
-
-.address {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }

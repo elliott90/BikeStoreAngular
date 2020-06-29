@@ -22,11 +22,17 @@ export class ProductService {
     let params = new HttpParams()
       .set('page', filters.page.toString())
       .set('pagesize', filters.pageSize.toString())
-      .set('search', filters.search)
-      .set('minCost', filters.minCost.toString())
-      .set('maxCost', filters.maxCost.toString())
-      .set('productId', filters.productId.toString());
+      .set('search', filters.search);
 
+    if (filters.minCost) {
+      params = params.set('minCost', filters.minCost.toString());
+    }
+    if (filters.maxCost) {
+      params = params.set('maxCost', filters.maxCost.toString());
+    }
+    if (filters.productId) {
+      params = params.set('productId', filters.productId.toString());
+    }
     if (filters.categoryId) {
       params = params.set('categoryId', filters.categoryId.toString());
     }

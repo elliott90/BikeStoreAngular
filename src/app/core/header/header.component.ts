@@ -4,6 +4,7 @@ import { SettingsService } from '../services/settings.service';
 import { ICustomer } from 'src/app/shared/interfaces/ICustomer';
 import { CustomerService } from '../services/customer.service';
 import { Router } from '@angular/router';
+import { IProduct } from 'src/app/shared/interfaces/IProduct';
 
 @Component({
   selector: 'app-header',
@@ -12,13 +13,16 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
   isLoggedIn = false;
   userName = '';
-  isDebug = false;
+  isDebugging = false;
 
   constructor(private authService: AuthService, private settingService: SettingsService, private router: Router) {}
 
   ngOnInit(): void {
     this.authService.loginChanged.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
+      // if (!loggedIn) {
+      //   this.router.navigate(['']);
+      // }
     });
     this.authService.authContextChanged.subscribe((authChanged) => {
       if (authChanged) {
@@ -31,8 +35,8 @@ export class HeaderComponent implements OnInit {
       this.isLoggedIn = loggedIn;
     });
 
-    this.settingService.debugChanged.subscribe((debug) => {
-      this.isDebug = debug;
+    this.settingService.isDebuggingChanged.subscribe((isDebugging) => {
+      this.isDebugging = isDebugging;
     });
   }
 
@@ -45,10 +49,18 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleDebugging(): void {
-    this.settingService.changeDebugValue(!this.isDebug);
+    this.settingService.changeDebugValue(!this.isDebugging);
   }
 
   handleCustomerSelect(customer: ICustomer): void {
     this.router.navigate(['customer', customer.customerId, 'edit']);
+  }
+
+  handleProductSelect(product: IProduct): void {
+    this.router.navigate(['product', product.productId, 'edit']);
+  }
+
+  toggleSidebar(): void {
+    this.settingService.showSidebarToggle(!this.settingService.showSidebar);
   }
 }

@@ -4,13 +4,16 @@
     class="form-control search__input"
     [(ngModel)]="customerSearchText"
     (keyup)="search(searchBox.value)"
-    placeholder="Search Customer"
+    [placeholder]="inputPlaceholderText"
   />
   <div class="search__results" *ngIf="totalItems > 0">
     <div class="search__list">
-      <ng-content></ng-content>
+      <ng-content *ngIf="!loading; else loadingTemplate" ></ng-content>
+      <ng-template #loadingTemplate>
+        <p class="text-center py-3">Loading...</p>
+      </ng-template>
     </div>
-    <div class="search__pagination" *ngIf="paginationVisible">
+    <div class="search__pagination" *ngIf="paginationVisible && !loading">
       <div class="d-flex justify-content-between align-items-center">
         <div>{{ totalItems }} results</div>
         <div>Page {{ currentPage }} of {{ totalPages }}</div>
@@ -25,7 +28,7 @@
       </div>
     </div>
   </div>
-  <div class="search__no-results" *ngIf="totalItems === 0 && searchBox.value.length > 0">
+  <div class="search__no-results" *ngIf="totalItems === 0 && searchBox.value.length > 0 && !loading">
     There are no results based on your query.
   </div>
 </div>

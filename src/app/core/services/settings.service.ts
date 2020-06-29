@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, from } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
-  private debugChangedSubject = new Subject<boolean>();
-  debugChanged = this.debugChangedSubject.asObservable();
+  private _isDebugging = new BehaviorSubject<boolean>(false);
+  isDebuggingChanged = this._isDebugging.asObservable();
 
-  private isDebug = false;
+  showSidebar = false;
+  isDebug = false;
 
   constructor() {}
 
   changeDebugValue(value: boolean): void {
-    this.debugChangedSubject.next(value);
     this.isDebug = value;
+    this._isDebugging.next(value);
   }
 
-  isDebugging(): Observable<boolean> {
-    return from(this.debugChanged);
+  showSidebarToggle(show: boolean): void {
+    this.showSidebar = show;
   }
 }

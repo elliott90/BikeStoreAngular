@@ -37,9 +37,11 @@ export class AuthService {
     };
 
     this._userManager = new UserManager(stsSettings);
+
     this._userManager.events.addAccessTokenExpired(() => {
       this._loginChangedSubject.next(false);
     });
+
     this._userManager.events.addUserLoaded((user) => {
       if (this._user !== user) {
         this._user = user;

@@ -3,6 +3,8 @@
   (pageChanged)="gotPageFromChild($event)"
   [pageSize]="filter.pageSize"
   [totalItems]="totalRecords"
+  inputPlaceholderText="Search Customers"
+  [loading]="loading"
 >
   <div
     *ngFor="let customer of customers?.results"
@@ -11,6 +13,6 @@
     [title]="'Select ' + customer.firstName + ' ' + customer.lastName"
   >
     {{ customer.firstName }} {{ customer.lastName }}<br />
-    <small>{{ customer.street }}, {{ customer.state }}, {{ customer.city }}</small>
+    <small class="address">{{ customer.street }}, {{ customer.state }}, {{ customer.city }}</small>
   </div></app-search-list-base
 >

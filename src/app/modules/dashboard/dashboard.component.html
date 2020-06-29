@@ -1,18 +1,18 @@
 <div class="row mt-4">
-  <div class="col-lg-3">
+  <div class="col-12 col-md-6 col-lg-3">
     <app-stat-box name="Customers" [number]="customerCount$ | async" badgeText="Total"></app-stat-box>
   </div>
-  <div class="col-lg-3">
+  <div class="col-12 col-md-6 col-lg-3">
     <app-stat-box name="Orders" [number]="orderCount$ | async" badgeText="Total"></app-stat-box>
   </div>
-  <div class="col-lg-3">
+  <div class="col-12 col-md-6 col-lg-3">
     <app-stat-box name="Products" [number]="productCount$ | async" badgeText="Total"></app-stat-box>
   </div>
-  <div class="col-lg-3"></div>
+  <div class="col-12 col-md-6 col-lg-3"></div>
 </div>
 
 <div class="row">
-  <div class="col-lg-6" *ngIf="orders">
+  <div class="col-lg-12 col-xl-6" *ngIf="orders">
     <div class="stat-box">
       <div class="stat-box__title">
         <h5>Orders</h5>
@@ -32,7 +32,7 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-6" *ngIf="customers">
+  <div class="col-lg-12 col-xl-6" *ngIf="customers">
     <div class="stat-box">
       <div class="stat-box__title">
         <h5>Customers</h5>

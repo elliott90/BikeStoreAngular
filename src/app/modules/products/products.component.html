@@ -1,20 +1,26 @@
-<header class="bg-light pt-4 pb-md-5 px-4 px-lg-5 d-flex d-md-block align-items-center title">
-    <div class="d-flex">
-        <h1 class="mb-4 mr-auto mr-md-none">Products</h1>
-        <div class="ml-auto">
-            <button class="btn btn-success" [routerLink]="['/product', 0, 'edit']"><i class="fa fa-plus"></i>Add Product</button>
-        </div>
+<header class="bg-light pt-4 pb-4 pb-md-5 px-4 px-lg-5 d-md-block align-items-center title">
+  <div class="d-flex">
+    <h1 class="mb-4 mr-auto mr-md-none">Products</h1>
+    <div class="ml-auto">
+      <button class="btn btn-success" [routerLink]="['/product', 0, 'edit']">
+        <i class="fa fa-plus"></i>Add Product
+      </button>
     </div>
-    
-    <ul class="nav-tabs px-4 px-lg-5 content-tabset justify-content-md-start justify-content-end nav" 
-        role="tablist"
-        slot="submenu"> 
-        <li class="nav-item">
-            <a [routerLink]="['/products', 'list', 'all']" routerLinkActive="active" class="nav-link"> All Products ({{productCount$ | async}}) </a>
-        </li>
-    </ul>
+  </div>
+
+  <ul
+    class="nav-tabs px-4 px-lg-5 content-tabset justify-content-md-start justify-content-end nav"
+    role="tablist"
+    slot="submenu"
+  >
+    <li class="nav-item">
+      <a [routerLink]="['/products', 'list', 'all']" routerLinkActive="active" class="nav-link">
+        All Products ({{ productCount$ | async }})
+      </a>
+    </li>
+  </ul>
 </header>
 
 <div class="container-fluid pt-3 pb-5 px-2 px-md-4 px-lg-2">
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>

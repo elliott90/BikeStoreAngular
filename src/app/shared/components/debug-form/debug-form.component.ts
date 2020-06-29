@@ -1,25 +1,28 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { SettingsService } from 'src/app/core/services/settings.service';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-debug-form',
   templateUrl: './debug-form.component.html',
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DebugFormComponent implements OnInit {
+export class DebugFormComponent implements OnInit, OnDestroy {
   @Input() form: FormGroup;
-  isDebug$: Observable<boolean>;
+  sub: Subscription;
+  isDebug = false;
 
-  constructor(private settingService: SettingsService) {
-    // this.settingService.debugChanged.subscribe((isDebugging) => {
-    //   debugger;
-    //   this.isDebug = isDebugging;
-    // });
-  }
+  constructor(private settingService: SettingsService, private ref: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.isDebug$ = this.settingService.isDebugging();
+    this.sub = this.settingService.isDebuggingChanged.subscribe((isDebugging) => {
+      this.isDebug = isDebugging;
+      this.ref.detectChanges();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 }

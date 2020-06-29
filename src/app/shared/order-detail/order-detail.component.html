@@ -24,49 +24,51 @@
   <div class="card-body">
     <div class="row">
       <div class="col-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Store</th>
-              <th>Model Year</th>
-              <th>Quantity</th>
-              <th>List Price</th>
-              <th>Discount</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of order.orderItems">
-              <td>{{ item.product?.productName }}</td>
-              <td>{{ order.store.storeName }}</td>
-              <td>{{ item.product?.modelYear }}</td>
-              <td>{{ item.quantity }}</td>
-              <td>{{ item.listPrice | currency: '£' }}</td>
-              <td>
-                <b class="text-danger">{{ item.listPrice * item.quantity * item.discount | currency: '£' }}</b> ({{ item.discount | percent }})
-              </td>
-              <td>{{ item.listPrice * item.quantity | calculateDiscountedCost: item.discount | currency: '£' }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Store</th>
+                <th>Model Year</th>
+                <th>Quantity</th>
+                <th>List Price</th>
+                <th>Discount</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of order.orderItems">
+                <td>{{ item.product?.productName }}</td>
+                <td>{{ order.store.storeName }}</td>
+                <td>{{ item.product?.modelYear }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.listPrice | currency: '£' }}</td>
+                <td>
+                  <b class="text-danger">{{ item.listPrice * item.quantity * item.discount | currency: '£' }}</b> ({{
+                    item.discount | percent
+                  }})
+                </td>
+                <td>{{ item.listPrice * item.quantity | calculateDiscountedCost: item.discount | currency: '£' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
   <div class="card-footer">
-    <div class="row">
-      <div class="col">
-        <button class="btn btn-secondary">Contact Customer</button>
-      </div>
-      <div class="col text-right">
+    <div class="d-flex">
+      <button class="btn btn-sm btn-secondary" [routerLink]="['/customer', order.customerId, 'edit']">View Customer</button>
+      <div class="ml-auto">
         <button
-          class="btn btn-danger mr-2"
+          class="btn btn-sm btn-danger mr-2"
           *ngIf="order.orderStatus === orderStatusEnum.Processing || order.orderStatus === orderStatusEnum.Pending"
         >
           Cancel Order
         </button>
         <button
-          class="btn btn-success"
+          class="btn btn-sm btn-success"
           *ngIf="order.orderStatus === orderStatusEnum.Processing || order.orderStatus === orderStatusEnum.Pending"
         >
           Mark as Shipped

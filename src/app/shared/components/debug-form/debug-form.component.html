@@ -1,5 +1,5 @@
-<div class="alert alert-danger my-4" *ngIf="isDebug$ | async">
+<div class="alert alert-danger my-4" *ngIf="isDebug">
   <h4 class="alert-heading">Debug Form Information</h4>
-  Form Dirty: {{ form.dirty }} <br />Form Touched: {{ form.touched }} <br />Form Valid: {{ form.valid }} <br />Form Pristine:
-  {{ form.pristine }} <br />Form Value: {{ form.value | json }} 
+  Form Dirty: {{ form.dirty }} <br />Form Touched: {{ form.touched }} <br />Form Valid: {{ form.valid }} <br />Form
+  Pristine: {{ form.pristine }} <br />Form Value: {{ form.value | json }}
 </div>

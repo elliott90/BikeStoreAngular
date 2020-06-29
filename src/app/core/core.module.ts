@@ -14,20 +14,12 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
-import { ProductSearchComponent } from './header/components/product-search/product-search.component';
 import { RecentCustomersComponent } from './header/components/recent-customers/recent-customers.component';
 
 @NgModule({
   imports: [RouterModule, NgbModule, HttpClientModule, OverlayModule, SharedModule],
-  declarations: [GrowlerComponent, ProductSearchComponent, RecentCustomersComponent],
-  exports: [
-    HttpClientModule,
-    OverlayModule,
-    NgbModule,
-    GrowlerComponent,
-    ProductSearchComponent,
-    RecentCustomersComponent,
-  ],
+  declarations: [GrowlerComponent, RecentCustomersComponent],
+  exports: [HttpClientModule, OverlayModule, NgbModule, GrowlerComponent, RecentCustomersComponent],
   providers: [
     EventBusService,
     AuthService,

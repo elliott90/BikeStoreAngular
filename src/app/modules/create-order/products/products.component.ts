@@ -48,23 +48,7 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  productSearch = ($text$: Observable<string>): Observable<IProduct[]> =>
-    $text$.pipe(
-      debounceTime(1000),
-      distinctUntilChanged(),
-      // tap(() => this.searching = true),
-      switchMap((term) => this.productService.getProductsBySearchString(term))
-      // tap(() => this.searching = false)
-    );
-
-  productFormatter = (product: IProduct): string =>
-    `${product.productName} (${this.currencyPipe.transform(product.listPrice, '£')})`;
-
-  productInputFormatter = (product: IProduct): string => (product ? `${product.productName}` : '');
-
-  selectProduct(event: NgbTypeaheadSelectItemEvent): void {
-    const product = event.item as IProduct;
-
+  selectProduct(product: IProduct): void {
     this.productAdded.emit(product);
 
     setTimeout(() => {

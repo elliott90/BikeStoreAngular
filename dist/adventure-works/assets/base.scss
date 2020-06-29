@@ -19,6 +19,12 @@ body {
   @extend .ml-2;
 }
 
+.btn-group {
+  .btn + .btn {
+    margin-left: 0 !important;
+  }
+}
+
 .stat-box {
   margin-bottom: 25px;
   margin-top: 0;
@@ -77,6 +83,10 @@ body {
   margin-right: 10px;
 }
 
+.btn-icon > .fa {
+  margin-right: 0;
+}
+
 .input-loader {
   position: relative;
 
@@ -100,4 +110,12 @@ body {
 
 .form-control {
   border-radius: 0;
+}
+
+.table {
+  font-size: 14px;
+
+  @media screen and (max-width: 1200px) {
+    font-size: 12px;
+  }
 }

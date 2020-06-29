@@ -2,10 +2,10 @@ export interface ProductFilter {
   page: number;
   pageSize: number;
   search: string;
-  productId: number;
+  productId?: number;
   productIds?: number[];
-  minCost: number;
-  maxCost: number;
+  minCost?: number;
+  maxCost?: number;
   categoryId?: number;
   brandId?: number;
 }

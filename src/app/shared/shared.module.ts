@@ -26,6 +26,7 @@ import { DebugFormComponent } from './components/debug-form/debug-form.component
 import { FormButtonsComponent } from './components/form-buttons/form-buttons.component';
 import { CustomerSearchComponent } from './components/customer-search/customer-search.component';
 import { SearchListBaseComponent } from './components/search-list-base/search-list-base.component';
+import { ProductSearchComponent } from './components/product-search/product-search.component';
 
 export const customCurrencyMaskConfig = {
   align: 'left',
@@ -71,6 +72,7 @@ export const customCurrencyMaskConfig = {
     FormButtonsComponent,
     CustomerSearchComponent,
     SearchListBaseComponent,
+    ProductSearchComponent,
   ],
   exports: [
     CommonModule,
@@ -95,6 +97,7 @@ export const customCurrencyMaskConfig = {
     DebugFormComponent,
     FormButtonsComponent,
     CustomerSearchComponent,
+    ProductSearchComponent,
   ],
 })
 export class SharedModule {}

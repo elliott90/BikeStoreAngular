@@ -111,3 +111,11 @@ body {
 .form-control {
   border-radius: 0;
 }
+
+.table {
+  font-size: 14px;
+
+  @media screen and (max-width: 1200px) {
+    font-size: 12px;
+  }
+}
